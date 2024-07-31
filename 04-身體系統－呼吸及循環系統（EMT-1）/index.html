@@ -1,0 +1,269 @@
+<!DOCTYPE html><html lang="zh-TW" data-theme="light"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><title>04．身體系統－呼吸及循環系統（EMT-1） | 海母的EMT筆記</title><noscript>開啟JavaScript才能訪問本站哦~</noscript><link rel="icon" href="/img/favicon.ico"><!-- index.css--><link rel="stylesheet" href="/css/index.css?v=1.12.1"><!-- inject head--><link rel="canonical" href="http://example.com/04-%E8%BA%AB%E9%AB%94%E7%B3%BB%E7%B5%B1%EF%BC%8D%E5%91%BC%E5%90%B8%E5%8F%8A%E5%BE%AA%E7%92%B0%E7%B3%BB%E7%B5%B1%EF%BC%88EMT-1%EF%BC%89/"><link rel="stylesheet" href="https://cdn2.codesign.qq.com/icons/7pOrz0WXB5ZWJPX/latest/iconfont.css"><!-- aplayer--><!-- swiper--><!-- fancybox ui--><!-- katex--><!-- Open Graph--><meta name="description" content="身體系統功能身體有呼吸、循環、神經、骨骼肌肉、消化、內分泌、泌尿、生殖、皮膚等九大系統。本筆記 僅對初級救護技術員應熟悉的呼吸、循環及神經系統做較詳細的介紹。 呼吸系統係由口、鼻、咽、喉、氣管及肺泡所組成，以會厭為界分成上、下呼吸道，肺臟有五葉(左肺二葉、右肺三葉)。呼吸動作屬自主性運動，但仍可透過"><!-- pwa--><meta name="apple-mobile-web-app-capable" content="海母的EMT筆記"><meta name="theme-color" content="var(--efu-main)"><meta name="apple-mobile-web-app-status-bar-style" content="var(--efu-main)"><link rel="bookmark" href="/img/favicon.ico"><link rel="apple-touch-icon" href="/img/favicon.ico" sizes="180x180"><script>console.log(
+    "%c Program: Hexo %c Theme: Solitude %c Version: v1.12.1",
+    "border-radius:5px 0 0 5px;padding: 5px 10px;color:white;background:#ff3842;",
+    "padding: 5px 10px;color:white;background:#3e9f50;",
+    "padding: 5px 10px;color:white;background:#0084ff;border-radius:0 5px 5px 0",
+)
+</script><script>(()=>{
+        const saveToLocal = {
+            set: function setWithExpiry(key, value, ttl) {
+                if (ttl === 0)
+                    return
+                const now = new Date()
+                const expiryDay = ttl * 86400000
+                const item = {
+                    value: value,
+                    expiry: now.getTime() + expiryDay
+                }
+                localStorage.setItem(key, JSON.stringify(item))
+            },
+            get: function getWithExpiry(key) {
+                const itemStr = localStorage.getItem(key)
+    
+                if (!itemStr) {
+                    return undefined
+                }
+                const item = JSON.parse(itemStr)
+                const now = new Date()
+    
+                if (now.getTime() > item.expiry) {
+                    localStorage.removeItem(key)
+                    return undefined
+                }
+                return item.value
+            }
+        };
+        window.utils = {
+            saveToLocal: saveToLocal,
+            getCSS: (url, id = false) => new Promise((resolve, reject) => {
+              const link = document.createElement('link')
+              link.rel = 'stylesheet'
+              link.href = url
+              if (id) link.id = id
+              link.onerror = reject
+              link.onload = link.onreadystatechange = function() {
+                const loadState = this.readyState
+                if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+                link.onload = link.onreadystatechange = null
+                resolve()
+              }
+              document.head.appendChild(link)
+            }),
+            getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+              const script = document.createElement('script')
+              script.src = url
+              script.async = true
+              script.onerror = reject
+              script.onload = script.onreadystatechange = function() {
+                const loadState = this.readyState
+                if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+                script.onload = script.onreadystatechange = null
+                resolve()
+              }
+    
+              Object.keys(attr).forEach(key => {
+                script.setAttribute(key, attr[key])
+              })
+    
+              document.head.appendChild(script)
+            }),
+            addGlobalFn: (key, fn, name = false, parent = window) => {
+                const globalFn = parent.globalFn || {}
+                const keyObj = globalFn[key] || {}
+        
+                if (name && keyObj[name]) return
+        
+                name = name || Object.keys(keyObj).length
+                keyObj[name] = fn
+                globalFn[key] = keyObj
+                parent.globalFn = globalFn
+            },
+        }
+    })()</script><!-- global head--><script>const GLOBAL_CONFIG = {
+    root: '/',
+    algolia: undefined,
+    localsearch: undefined,
+    runtime: '2024-07-01 00:00:00',
+    lazyload: {
+        enable: false,
+        error: '/img/error_load.avif'
+    },
+    copyright: false,
+    highlight: {
+        enable: true,
+        limit: 200,
+        expand: true,
+        copy: true,
+        syntax: 'highlight.js'
+    },
+    randomlink: false,
+    lang: {"theme":{"dark":"已切換至深色模式","light":"已切換至淺色模式"},"copy":{"success":"複製成功","error":"複製失敗"},"backtop":"返回頂部","time":{"day":"天前","hour":"小時前","just":"剛剛","min":"分鐘前","month":"個月前"},"day":" 天","f12":"開發者模式已打開，請遵循GPL協定。","totalk":"無需刪除空行，直接輸入評論即可","barrage":{"title":"熱評"}},
+    aside: {
+        sayhello: {
+            morning: '起床啦～～',
+            noon: '吃飽了才有力氣工作',
+            afternoon: '吃下午茶囉ww',
+            night: '早點休息喔',
+            goodnight: '該睡覺了ww',
+        },
+        sayhello2: [],
+        sayhello3: {
+            prefix: '好久不見，',
+            back: '歡迎再次回來，',
+        },
+    },
+    covercolor: {
+        enable: true
+    },
+    comment: {"avatar":"https://cravatar.cn","commentBarrage":true},
+    lightbox: 'null',
+    post_ai: false,
+    right_menu: false,
+};</script><!-- page-config head--><script id="config-diff">var PAGE_CONFIG = {
+    is_post: true,
+    is_page: false,
+    is_home: false,
+    page: '',
+    toc: false,
+    comment: true,
+    ai_text: false
+}</script><meta name="generator" content="Hexo 7.2.0"></head><body id="body"><!-- universe--><canvas id="universe"></canvas><!-- loading--><!-- console--><div id="console"><div class="close-btn" onclick="sco.hideConsole()"><i class="solitude st-close-fill"></i></div><div class="console-card-group"><div class="console-card-group-left"><div class="console-card" id="card-newest-comments" onclick="sco.hideConsole()"><div class="card-content"><div class="author-content-item-tips">互動</div><div class="author-content-item-title">評論<a class="recent-comment-more" href="/recentcomments/" title="最近評論"><i class="solitude st-right-btn-fill"></i></a></div></div><a class="recent-comment-image" href="/recentcomments/"><img src="/img/recent_c.avif"></a></div></div><div class="console-card-group-right"><div class="console-card tags" onclick="sco.hideConsole()"><div class="card-content"><div class="author-content-item-tips">標籤</div><div class="author-content-item-title">標籤</div></div><div class="card-tag-cloud"><a href="/tags/EMT-1/">EMT-1<sup>6</sup></a><a href="/tags/%E5%8F%B0%E7%81%A3%E7%B7%8A%E6%80%A5%E9%86%AB%E7%99%82%E6%95%91%E8%AD%B7%E9%AB%94%E7%B3%BB%E7%9A%84%E6%B2%BF%E9%9D%A9%E8%88%87%E5%B1%95%E6%9C%9B/">台灣緊急醫療救護體系的沿革與展望<sup>1</sup></a><a href="/tags/%E7%B7%8A%E6%80%A5%E9%86%AB%E7%99%82%E6%95%91%E8%AD%B7%E7%9A%84%E6%B3%95%E8%A6%8F%E8%88%87%E9%81%8B%E7%94%A8/">緊急醫療救護的法規與運用<sup>1</sup></a><a href="/tags/%E4%BA%BA%E9%AB%94%E5%A4%96%E8%A7%80/">人體外觀<sup>1</sup></a><a href="/tags/%E8%BA%AB%E9%AB%94%E7%B3%BB%E7%B5%B1/">身體系統<sup>3</sup></a></div></div><div class="console-card history" onclick="sco.hideConsole()"><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/07/"><span class="card-archive-list-date">2024/07</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">4</span><span class="card-archive-list-count-unit">篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/06/"><span class="card-archive-list-date">2024/06</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">2</span><span class="card-archive-list-count-unit">篇</span></div></a></li></ul></div></div></div><div class="button-group"><div class="console-btn-item"><span class="darkmode_switchbutton" onclick="sco.switchDarkMode()" title="晝夜切換"><i class="solitude st-moon-clear-fill"></i></span></div><div class="console-btn-item" id="consoleHideAside"><span class="asideSwitch" onclick="sco.switchHideAside()" title="邊欄顯示控制"><i class="solitude st-side-bar-fill"></i></span></div><div class="console-btn-item on" id="consoleCommentBarrage" onclick="sco.switchCommentBarrage()"><span class="commentBarrage"><i class="solitude st-chat-fill"></i></span></div></div><div class="console-mask" onclick="sco.hideConsole()"></div></div><!-- sidebar--><div id="sidebar" style="zoom: 1;"><div id="menu-mask" style="display: none;"></div><div id="sidebar-menus"><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">6</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分類</div><div class="length-num">1</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">標籤</div><div class="length-num">5</div></a></div></div></div><span class="sidebar-menu-item-title">功能</span><div class="sidebar-menu-item"><span class="darkmode_switchbutton menu-child" onclick="sco.switchDarkMode()"><i class="solitude st-moon-clear-fill"></i><span>顯示模式</span></span></div><span class="sidebar-menu-item-title">標籤</span><div class="card-widget card-tags card-archives card-webinfo card-allinfo"><div class="card-tag-cloud"><a href="/tags/EMT-1/">EMT-1<sup>6</sup></a><a href="/tags/%E5%8F%B0%E7%81%A3%E7%B7%8A%E6%80%A5%E9%86%AB%E7%99%82%E6%95%91%E8%AD%B7%E9%AB%94%E7%B3%BB%E7%9A%84%E6%B2%BF%E9%9D%A9%E8%88%87%E5%B1%95%E6%9C%9B/">台灣緊急醫療救護體系的沿革與展望<sup>1</sup></a><a href="/tags/%E7%B7%8A%E6%80%A5%E9%86%AB%E7%99%82%E6%95%91%E8%AD%B7%E7%9A%84%E6%B3%95%E8%A6%8F%E8%88%87%E9%81%8B%E7%94%A8/">緊急醫療救護的法規與運用<sup>1</sup></a><a href="/tags/%E4%BA%BA%E9%AB%94%E5%A4%96%E8%A7%80/">人體外觀<sup>1</sup></a><a href="/tags/%E8%BA%AB%E9%AB%94%E7%B3%BB%E7%B5%B1/">身體系統<sup>3</sup></a></div></div></div></div><!-- keyboard--><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav class="show" id="nav"><div id="nav-group"><div id="blog_name"><a id="site-name" href="/" title="返回博客主頁"><span class="title">海母EMT筆記</span></a></div><div id="page-name-mask"><div id="page-name"><a id="page-name-text" onclick="sco.toTop()">04．身體系統－呼吸及循環系統（EMT-1）</a></div></div><div id="menus"></div><div id="nav-left"></div><div id="nav-right"><div class="nav-button" id="nav-totop" onclick="sco.toTop()"><a class="totopbtn"><i class="solitude st-arrow-up-line"></i><span id="percent">0</span></a></div><div id="toggle-menu"><a class="site-page"><i class="solitude st-menu-line"></i></a></div></div></div></nav><div class="coverdiv" id="coverdiv"><img class="nolazyload" id="post-cover" src="/../cover/04-2.png" alt="04．身體系統－呼吸及循環系統（EMT-1）"></div><div id="post-info"><div id="post-firstinfo"><div class="meta-firstline"><a class="post-meta-original" title="該文章為原創文章，注意版權協議">原創</a><span class="post-meta-categories"><a class="post-meta-categories" href="/categories/EMT/">EMT</a></span><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/EMT-1/"><span class="tags-name tags-punctuation">EMT-1</span></a><a class="post-meta__tags" href="/tags/%E8%BA%AB%E9%AB%94%E7%B3%BB%E7%B5%B1/"><span class="tags-name tags-punctuation">身體系統</span></a></div></div></div></div><h1 class="post-title">04．身體系統－呼吸及循環系統（EMT-1）</h1><div id="post-meta"><div class="meta-secondline"></div></div></div><section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path></defs><g class="parallax"><use href="#gentle-wave" x="48" y="0"></use><use href="#gentle-wave" x="48" y="3"></use><use href="#gentle-wave" x="48" y="5"></use><use href="#gentle-wave" x="48" y="7"></use></g></svg></section></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="身體系統功能"><a href="#身體系統功能" class="headerlink" title="身體系統功能"></a>身體系統功能</h1><p>身體有呼吸、循環、神經、骨骼肌肉、消化、內分泌、泌尿、生殖、皮膚等九大系統。<br>本筆記 <em><strong>僅對初級救護技術員應熟悉的呼吸、循環及神經系統做較詳細的介紹</strong></em>。</p>
+<h1 id="呼吸系統"><a href="#呼吸系統" class="headerlink" title="呼吸系統"></a>呼吸系統</h1><p>係由口、鼻、咽、喉、氣管及肺泡所組成，<strong>以會厭為界分成上、下呼吸道</strong>，肺臟有五葉(<strong>左肺二葉、右肺三葉</strong>)。<br>呼吸動作屬<strong>自主性運動</strong>，但仍可透過意識控制。</p>
+<h2 id="自主作用"><a href="#自主作用" class="headerlink" title="自主作用"></a>自主作用</h2><p>由呼吸中樞<strong>延腦</strong>控制，人體內的二氧化碳濃度升高就會刺激延腦，延腦會發出呼吸的訊號而產生呼吸動作。</p>
+<h2 id="意識控制"><a href="#意識控制" class="headerlink" title="意識控制"></a>意識控制</h2><p>控制呼吸動作的主要肌肉是橫膈肌，橫膈肌收縮，胸腔擴大，氣體進入（橫膈肌放鬆，胸腔縮小，氣體排出）。<br>輔助或副呼吸肌肉有腹部的肌肉、肋間的肌肉及頸部的胸鎖乳突肌(sternocleidomastoid)、斜角肌(scalenus)及斜方肌(trapezius)，使用時會有肋間凹陷或鎖骨上凹陷等呼吸窘迫的徵候。</p>
+<h2 id="氣體交換"><a href="#氣體交換" class="headerlink" title="氣體交換"></a>氣體交換</h2><p>人體透過呼吸作用來獲得氧氣與排出二氧化碳，氧氣與二氧化碳主要在肺泡外圍佈滿之微血管達到氣體交換的功能。</p>
+<h2 id="潮氣量"><a href="#潮氣量" class="headerlink" title="潮氣量"></a>潮氣量</h2><p>人體靜態時每次呼吸時呼出或吸入的空氣量稱為潮氣量(tidal volume)，正常成人<strong>約8~10 mL&#x2F;kg</strong>，即可以維持正常的氧合作用(oxygenation)和二氧化碳的排除，可由其呼吸深淺得知其大小。</p>
+<h2 id="呼吸頻率"><a href="#呼吸頻率" class="headerlink" title="呼吸頻率"></a>呼吸頻率</h2><p>成人在清醒且休息時每分鐘呼吸速率約在 <strong>12~20</strong> 次間，通常與<strong>脈搏</strong>的比率約為 <strong>1：4</strong>，其呼吸型態為規則且平順，偶爾因二氧化碳濃度上升而嘆氣或深呼吸。<br><strong>瀕死或喘息式(agonal or gasping)呼吸</strong>則為極慢、<strong>不規則和長之深呼吸</strong>，常為突然心臟停止一分鐘內病人之呼吸徵候。</p>
+<h1 id="循環系統"><a href="#循環系統" class="headerlink" title="循環系統"></a>循環系統</h1><p>心臟位於胸腔中間偏左，外有心包膜，內有四個腔室，分別為右心房、右心室、左心房及左室，房室間有單向瓣膜(右心為三尖瓣，左心為二尖瓣)區隔來防止血液回流。<br>血管有動脈、靜脈及微血管，<strong>離開心臟往全身各處的是動脈，流回心臟的是靜脈</strong>。<br>動脈與靜脈的交接在微血管，可完成養分與代謝廢物的交換。</p>
+<h2 id="體循環及肺循環"><a href="#體循環及肺循環" class="headerlink" title="體循環及肺循環"></a>體循環及肺循環</h2><p>循環系統包括心臟、血管與血液，分為體循環及肺循環。</p>
+<h2 id="體循環"><a href="#體循環" class="headerlink" title="體循環"></a>體循環</h2><p>將血液送往全身各器官細胞<br><strong>左心室→主動脈→小動脈→組織微血管→小靜脈→大靜脈(上下腔靜脈)→右心房</strong>。（圖04-01）</p>
+<h2 id="肺循環"><a href="#肺循環" class="headerlink" title="肺循環"></a>肺循環</h2><p>將血液送往肺部進行氣體交換，再回到心臟。<br><strong>右心室→肺動脈→肺臟微血管→肺靜脈→左心房</strong>。（圖04-01）</p>
+<blockquote>
+<p><img src="/img/04-01.png" title="體循環與肺循環圖">圖04-01 體循環與肺循環圖</p>
+</blockquote>
+<h2 id="血壓值及動脈點"><a href="#血壓值及動脈點" class="headerlink" title="血壓值及動脈點"></a>血壓值及動脈點</h2><p>血壓值可作為評估循環系統健全與否的指標之一，可採用下列常用動脈點（圖04-02）來初步確認血壓狀態（表04-s1）：</p>
+<ul>
+<li>頸動脈點：易於氣管兩側輕觸探知。</li>
+<li>橈動脈點：易於兩手大拇指根部下方約兩指幅輕觸探知。</li>
+<li>肱動脈點：易於兩手肘窩內側輕觸探知。</li>
+<li>股動脈點：易於鼠蹊部(腹股溝)中線位置處觸摸探知。</li>
+<li>足背動脈點：易於內踝關節下緣與腳第一、二趾縫延伸線交接處輕觸探知。<blockquote>
+<p><img src="/img/04-02.png" title="常用動脈點位置圖">圖04-02 常用動脈點位置圖<br><img src="/img/04-s1.png" title="常用動脈點代表之血壓值">表04-s1 常用動脈點代表之血壓值</p>
+</blockquote>
+</li>
+</ul>
+<hr>
+<h1 id="練習題"><a href="#練習題" class="headerlink" title="練習題"></a>練習題</h1><p>１．何為人體呼吸作用？<br>（Ａ）獲得二氧化碳與排出氧氣（Ｂ）獲得氧氣與排出二氧化碳（Ｃ）獲得二氧化碳與排出二氧化碳<br>２．正常成人潮氣量約為下列何者？<br>（Ａ）10～15 mL&#x2F;kg（Ｂ）6～10 mL&#x2F;kg（Ｃ）8～10 mL&#x2F;kg<br>３．成人在清醒且休息時每分鐘呼吸速率約為下列何者？<br>（Ａ）6～12 次（Ｂ）12～20 次（Ｃ）8～10 次<br>４．下列哪條動脈（或靜脈）為充氧血？<br>（Ａ）大靜脈（Ｂ）肺動脈（Ｃ）肺靜脈<br>５．肺循環由哪腔室流出？流入哪腔室？<br>（Ａ）右心室、左心房（Ｂ）左心室、右心房（Ｃ）左心室、左心房<br>６．橈動脈收縮壓至少為多少？<br>（Ａ）60 mmHg（Ｂ）70 mmHg（Ｃ）80 mmHg<br>７．頸動脈收縮壓至少為多少？<br>（Ａ）60 mmHg（Ｂ）70 mmHg（Ｃ）80 mmHg</p>
+<blockquote>
+<p>答案：ＢＢＣＣＡＣＡ</p>
+</blockquote>
+<hr>
+<h1 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h1><p>內容來源：內政部消防署 初級救護技術員訓練教材<br>圖片來源：內政部消防署 初級救護技術員訓練教材</p>
+</article><div class="post-copyright"><div class="post-copyright__author_group"><a class="post-copyright__author_img" href="/about/"><img class="post-copyright__author_img_front" src="/img/favicon.ico"></a><div class="post-copyright__author_name">海母的EMT筆記</div><div class="post-copyright__author_desc">跟著海母學習EMT技術</div></div><div class="post-tools" id="post-tools"><div class="post-tools-left"><div id="quit-box" onclick="RemoveRewardMask()"></div></div></div><div class="post-copyright__notice"><span class="post-copyright-info">本文是原創文章，采用<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0</a>協議，完整轉載請注明來自<a href="/">海母的EMT筆記</a></span></div></div><div class="post-tools-right"><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/EMT-1/"><span class="tags-punctuation"></span>EMT-1<span class="tagsPageCount">6</span></a><a class="post-meta__tags" href="/tags/%E8%BA%AB%E9%AB%94%E7%B3%BB%E7%B5%B1/"><span class="tags-punctuation"></span>身體系統<span class="tagsPageCount">3</span></a></div></div></div><nav class="needEndHide pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/04-%E8%BA%AB%E9%AB%94%E7%B3%BB%E7%B5%B1%EF%BC%8D%E5%85%B6%E4%BB%96%E7%B3%BB%E7%B5%B1%EF%BC%88EMT-1%EF%BC%89/"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">04．身體系統－其他系統（EMT-1）</div></div></a></div><div class="next-post pull-right"><a href="/04-%E8%BA%AB%E9%AB%94%E7%B3%BB%E7%B5%B1%EF%BC%8D%E7%A5%9E%E7%B6%93%E3%80%81%E9%AA%A8%E9%AA%BC%E8%82%8C%E8%82%89%E5%8F%8A%E6%B6%88%E5%8C%96%E7%B3%BB%E7%B5%B1%EF%BC%88EMT-1%EF%BC%89/"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">04．身體系統－神經、骨骼肌肉及消化系統（EMT-1）</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="solitude st-star-smile-fill"></i><span>喜歡這篇的人也看了</span><div class="relatedPosts-link"><a onclick="event.preventDefault(); toRandomPost();" href="javascript:void(0);" rel="external nofollow" data-pjax-state="">隨便逛逛</a></div></div><div class="relatedPosts-list"><div><a href="/04-%E8%BA%AB%E9%AB%94%E7%B3%BB%E7%B5%B1%EF%BC%8D%E5%85%B6%E4%BB%96%E7%B3%BB%E7%B5%B1%EF%BC%88EMT-1%EF%BC%89/" title="04．身體系統－其他系統（EMT-1）"><img class="cover" src="/../cover/04-3.png" alt="cover"><div class="content is-center"><div class="title">04．身體系統－其他系統（EMT-1）</div></div></a></div><div><a href="/04-%E8%BA%AB%E9%AB%94%E7%B3%BB%E7%B5%B1%EF%BC%8D%E7%A5%9E%E7%B6%93%E3%80%81%E9%AA%A8%E9%AA%BC%E8%82%8C%E8%82%89%E5%8F%8A%E6%B6%88%E5%8C%96%E7%B3%BB%E7%B5%B1%EF%BC%88EMT-1%EF%BC%89/" title="04．身體系統－神經、骨骼肌肉及消化系統（EMT-1）"><img class="cover" src="/../cover/04-1.png" alt="cover"><div class="content is-center"><div class="title">04．身體系統－神經、骨骼肌肉及消化系統（EMT-1）</div></div></a></div></div></div><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="solitude st-chat-fill"></i><span> 評論</span></div></div><div class="comment-wrap"><div id="waline-wrap"></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-content"><div class="card-info-avatar is-center"><div class="author-info__top-group"><div class="author-info__sayhi" id="author-info__sayhi" onclick="sco.changeSayHelloText()">sayhello.morning</div></div></div><div class="avatar-img-group"><img class="avatar-img" alt="頭像" src="/img/avatar.jpg"><div class="avatar-sticker"><img class="avatar-sticker-img" src="https://7.isyangs.cn/34/65f2e4e0423cc-34.png" alt="心情貼紙"></div></div><div class="author-info__description_group"><div class="author-info__description">一位勵志成為藥師的狗。</div><div class="author-info__description2">正在學習EMT技術。</div></div><div class="author-info__bottom-group"><a class="author-info__bottom-group-left" href="/about/"><div class="author-info__name">海母Haimu</div><div class="author-info__desc">跟著海母學習EMT技術</div></a><div class="card-info-social-icons is-center"></div></div></div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="solitude st-map-line"></i><span>最近發布</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/04-%E8%BA%AB%E9%AB%94%E7%B3%BB%E7%B5%B1%EF%BC%8D%E5%85%B6%E4%BB%96%E7%B3%BB%E7%B5%B1%EF%BC%88EMT-1%EF%BC%89/" title="04．身體系統－其他系統（EMT-1）"><img alt="04．身體系統－其他系統（EMT-1）" src="../cover/04-3.png"></a><div class="content"><a class="title" href="/04-%E8%BA%AB%E9%AB%94%E7%B3%BB%E7%B5%B1%EF%BC%8D%E5%85%B6%E4%BB%96%E7%B3%BB%E7%B5%B1%EF%BC%88EMT-1%EF%BC%89/" title="04．身體系統－其他系統（EMT-1）">04．身體系統－其他系統（EMT-1）</a><a class="article-recent_post_categories" href="/04-%E8%BA%AB%E9%AB%94%E7%B3%BB%E7%B5%B1%EF%BC%8D%E5%85%B6%E4%BB%96%E7%B3%BB%E7%B5%B1%EF%BC%88EMT-1%EF%BC%89/">EMT</a></div></div><div class="aside-list-item"><a class="thumbnail" href="/04-%E8%BA%AB%E9%AB%94%E7%B3%BB%E7%B5%B1%EF%BC%8D%E5%91%BC%E5%90%B8%E5%8F%8A%E5%BE%AA%E7%92%B0%E7%B3%BB%E7%B5%B1%EF%BC%88EMT-1%EF%BC%89/" title="04．身體系統－呼吸及循環系統（EMT-1）"><img alt="04．身體系統－呼吸及循環系統（EMT-1）" src="../cover/04-2.png"></a><div class="content"><a class="title" href="/04-%E8%BA%AB%E9%AB%94%E7%B3%BB%E7%B5%B1%EF%BC%8D%E5%91%BC%E5%90%B8%E5%8F%8A%E5%BE%AA%E7%92%B0%E7%B3%BB%E7%B5%B1%EF%BC%88EMT-1%EF%BC%89/" title="04．身體系統－呼吸及循環系統（EMT-1）">04．身體系統－呼吸及循環系統（EMT-1）</a><a class="article-recent_post_categories" href="/04-%E8%BA%AB%E9%AB%94%E7%B3%BB%E7%B5%B1%EF%BC%8D%E5%91%BC%E5%90%B8%E5%8F%8A%E5%BE%AA%E7%92%B0%E7%B3%BB%E7%B5%B1%EF%BC%88EMT-1%EF%BC%89/">EMT</a></div></div><div class="aside-list-item"><a class="thumbnail" href="/04-%E8%BA%AB%E9%AB%94%E7%B3%BB%E7%B5%B1%EF%BC%8D%E7%A5%9E%E7%B6%93%E3%80%81%E9%AA%A8%E9%AA%BC%E8%82%8C%E8%82%89%E5%8F%8A%E6%B6%88%E5%8C%96%E7%B3%BB%E7%B5%B1%EF%BC%88EMT-1%EF%BC%89/" title="04．身體系統－神經、骨骼肌肉及消化系統（EMT-1）"><img alt="04．身體系統－神經、骨骼肌肉及消化系統（EMT-1）" src="../cover/04-1.png"></a><div class="content"><a class="title" href="/04-%E8%BA%AB%E9%AB%94%E7%B3%BB%E7%B5%B1%EF%BC%8D%E7%A5%9E%E7%B6%93%E3%80%81%E9%AA%A8%E9%AA%BC%E8%82%8C%E8%82%89%E5%8F%8A%E6%B6%88%E5%8C%96%E7%B3%BB%E7%B5%B1%EF%BC%88EMT-1%EF%BC%89/" title="04．身體系統－神經、骨骼肌肉及消化系統（EMT-1）">04．身體系統－神經、骨骼肌肉及消化系統（EMT-1）</a><a class="article-recent_post_categories" href="/04-%E8%BA%AB%E9%AB%94%E7%B3%BB%E7%B5%B1%EF%BC%8D%E7%A5%9E%E7%B6%93%E3%80%81%E9%AA%A8%E9%AA%BC%E8%82%8C%E8%82%89%E5%8F%8A%E6%B6%88%E5%8C%96%E7%B3%BB%E7%B5%B1%EF%BC%88EMT-1%EF%BC%89/">EMT</a></div></div><div class="aside-list-item"><a class="thumbnail" href="/03-%E4%BA%BA%E9%AB%94%E5%A4%96%E8%A7%80%EF%BC%88EMT-1%EF%BC%89/" title="03．人體外觀（EMT-1）"><img alt="03．人體外觀（EMT-1）" src="../cover/03.png"></a><div class="content"><a class="title" href="/03-%E4%BA%BA%E9%AB%94%E5%A4%96%E8%A7%80%EF%BC%88EMT-1%EF%BC%89/" title="03．人體外觀（EMT-1）">03．人體外觀（EMT-1）</a><a class="article-recent_post_categories" href="/03-%E4%BA%BA%E9%AB%94%E5%A4%96%E8%A7%80%EF%BC%88EMT-1%EF%BC%89/">EMT</a></div></div><div class="aside-list-item"><a class="thumbnail" href="/02%EF%BC%8E%E7%B7%8A%E6%80%A5%E9%86%AB%E7%99%82%E6%95%91%E8%AD%B7%E7%9A%84%E6%B3%95%E8%A6%8F%E8%88%87%E9%81%8B%E7%94%A8%EF%BC%88EMT-1%EF%BC%89/" title="02．緊急醫療救護的法規與運用（EMT-1）"><img alt="02．緊急醫療救護的法規與運用（EMT-1）" src="../cover/02.png"></a><div class="content"><a class="title" href="/02%EF%BC%8E%E7%B7%8A%E6%80%A5%E9%86%AB%E7%99%82%E6%95%91%E8%AD%B7%E7%9A%84%E6%B3%95%E8%A6%8F%E8%88%87%E9%81%8B%E7%94%A8%EF%BC%88EMT-1%EF%BC%89/" title="02．緊急醫療救護的法規與運用（EMT-1）">02．緊急醫療救護的法規與運用（EMT-1）</a><a class="article-recent_post_categories" href="/02%EF%BC%8E%E7%B7%8A%E6%80%A5%E9%86%AB%E7%99%82%E6%95%91%E8%AD%B7%E7%9A%84%E6%B3%95%E8%A6%8F%E8%88%87%E9%81%8B%E7%94%A8%EF%BC%88EMT-1%EF%BC%89/">EMT</a></div></div></div></div></div></div></main><footer id="footer"><div id="st-footer-bar"><div class="footer-logo"><span>海母EMT筆記</span></div><div class="footer-bar-description">更多EMT相關文章</div><a class="footer-bar-link" href="/categories/EMT">載入更多</a></div><div id="footer_deal"></div><div id="st-footer"></div><div id="footer-bar"><div class="footer-bar-links"><div class="footer-bar-left"><div class="copyright">© 2024 By&nbsp;<a class="footer-bar-link" href="/">海母Haimu</a></div></div><div class="footer-bar-right"><a class="footer-bar-link" target="_blank" rel="noopener" href="https://github.com/haimutw" alt="GitHub">GitHub</a><a class="footer-bar-link" target="_blank" rel="noopener" href="https://www.youtube.com/channel/UCmQD8e9ZnIy9F39wAmvAalA" alt="YouTube">YouTube</a><a class="footer-bar-link cc" href="/null" aria-label="copyright"><i class="solitude st-copyright-line"></i><i class="solitude st-creative-commons-by-line"></i><i class="solitude st-creative-commons-nc-line"></i><i class="solitude st-creative-commons-nd-line"></i></a></div></div></div><div class="comment-barrage needEndHide"></div></footer></div><!-- right_menu--><!-- inject body--><div><script src="/js/utils.js?v=1.12.1"></script><script src="/js/main.js?v=1.12.1"></script><script src="/js/third_party/waterfall.min.js?v=1.12.1"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/pjax/0.2.8/pjax.min.js"></script><script src="/js/third_party/universe.min.js?v=1.12.1"></script><script>dark()
+</script><script src="https://cdnjs.cloudflare.com/ajax/libs/node-snackbar/0.1.16/snackbar.min.js"></script><script src="/js/covercolor/local.js?v=1.12.1"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/pace.min.js"></script><div class="js-pjax"><script>(() => {
+    let walineInitFunction = window.walineFn || null
+
+    function initWaline(initFn) {
+        const walineOptions = {
+            el: '#waline-wrap',
+            serverURL: 'https://api.is-tw.com',
+            pageview: false,
+            dark: 'html[data-theme="dark"]',
+            path: window.location.pathname,
+            comment: false,
+            ...null
+        }
+        const walineInstance = initFn(walineOptions)
+        utils.addGlobalFn('pjax', () => walineInstance.destroy(), 'destroyWaline')
+        GLOBAL_CONFIG.lightbox && utils.lightbox(document.querySelectorAll('#comment .wl-content img:not(.wl-emoji)'))
+        sco.owoBig({
+            body: '.wl-emoji-popup',
+            item: '.wl-tab-wrapper button'
+        })
+    }
+
+    async function loadWaline() {
+        if (walineInitFunction) initWaline(walineInitFunction)
+        else {
+            await utils.getCSS('https://cdnjs.cloudflare.com/ajax/libs/waline/3.2.1/waline.min.css')
+            const {init} = await import('https://cdnjs.cloudflare.com/ajax/libs/waline/3.2.1/waline.min.js')
+            walineInitFunction = init || Waline.init
+            initWaline(walineInitFunction)
+            window.walineFn = walineInitFunction
+        }
+        true && barrageWaline()
+    }
+
+    if (true || false) {
+        if (false) utils.loadComment(document.getElementById('waline-wrap'), loadWaline)
+        else loadWaline()
+    } else window.loadTwoComment = loadWaline
+})()
+</script><script>async function barrageWaline() {
+    const url = new URL('https://api.is-tw.com/api/comment')
+    const params = {path: window.location.pathname, sortBy: 'insertedAt_asc'}
+    Object.entries(params).forEach(([key, value]) => url.searchParams.append(key, value))
+    await fetch(url).then(async res => {
+        if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`)
+        const data = await res.json();
+        const regex = /<img [^>]*class="wl-emoji"[^>]*>/;
+        const init = () => {
+            initializeCommentBarrage(data.data.data
+                .map(item => ({
+                    nick: item.nick,
+                    mailId: item.avatar,
+                    content: item.comment.replace(regex, ''),
+                    id: item.objectId
+                })))
+        }
+        if (typeof initializeCommentBarrage === "undefined") await utils.getScript('/js/third_party/barrage.min.js?v=1.12.1').then(init)
+        else init()
+    }).catch(error => console.error("An error occurred while fetching comments: ", error))
+}</script></div></div><!-- pjax--><script>const pjax = new Pjax({
+    elements: 'a:not([target="_blank"])',
+    selectors: ['title','#body-wrap','#site-config','meta[name="description"]','.js-pjax','meta[property^="og:"]','#config-diff'],
+    cacheBust: false,
+    analytics: false,
+    scrollRestoration: false
+})
+
+document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+})
+
+document.addEventListener('pjax:complete', () => {
+    window.refreshFn()
+
+    document.querySelectorAll('script[data-pjax]').forEach(item => {
+        const newScript = document.createElement('script')
+        const content = item.text || item.textContent || item.innerHTML || ""
+        Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+        newScript.appendChild(document.createTextNode(content))
+        item.parentNode.replaceChild(newScript, item)
+    })
+
+    GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+})
+
+document.addEventListener('pjax:error', (e) => {
+    if (e.request.status === 404) {
+        pjax.loadUrl('/404.html')
+    }
+})</script><!-- theme--><script>initTheme = () => {
+    let isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+    const cachedMode = utils.saveToLocal.get('theme');
+    if (cachedMode === undefined) {
+        const nowMode =
+            isDarkMode ? 'dark' : 'light'
+        document.documentElement.setAttribute('data-theme', nowMode);
+    } else {
+        document.documentElement.setAttribute('data-theme', cachedMode);
+    }
+    typeof rm === 'object' && rm.mode(cachedMode === 'dark' && isDarkMode)
+}
+initTheme()</script><!-- google adsense--><!-- search--><!-- Tianli-Talk--><!-- music--></body></html><script>const posts=["04-身體系統－其他系統（EMT-1）/","04-身體系統－呼吸及循環系統（EMT-1）/","04-身體系統－神經、骨骼肌肉及消化系統（EMT-1）/","03-人體外觀（EMT-1）/","02．緊急醫療救護的法規與運用（EMT-1）/","01．台灣緊急醫療救護體系的沿革與展望（EMT-1）/"];function toRandomPost(){ pjax.loadUrl('/'+posts[Math.floor(Math.random()*posts.length)]); }</script>
