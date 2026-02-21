@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EMT-1 專業急救訓練系統</title>
+  
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <script>
+    tailwind.config = {
+      theme: { extend: { colors: { medical: { blue: '#1e3a8a', red: '#dc2626', light: '#f8fafc' } } } }
+    }
+  </script>
+
+  <style>
+    .fade-slide-enter-active, .fade-slide-leave-active { transition: opacity 0.3s ease, transform 0.3s ease; }
+    .fade-slide-enter-from { opacity: 0; transform: translateY(10px); }
+    .fade-slide-leave-to { opacity: 0; transform: translateY(-10px); }
+    .prose {max-width: none; color: #334155; font-size: 1.1rem; }
+    .prose h1 {font-size: 2.5rem; font-weight: 900; color: #1e3a8a; border-bottom: 2px solid #e2e8f0; padding-bottom: 0.5rem; margin-top: 2rem; }
+    .prose h2 { font-size: 2rem; font-weight: 800; color: #1e3a8a; display: flex; align-items: center; gap: 0.5rem; margin-top: 2.5rem; margin-bottom: 1.25rem; }
+    .prose h2::before { content: ""; display: inline-block; width: 4px; height: 1.5rem; background-color: #dc2626; border-radius: 2px; }
+    .prose h3 { font-size: 1.5rem; line-height: 2;}
+    .prose h4 { font-size: 1rem; line-height: 2;}
+    .prose h5 { font-size: 0.8rem; line-height: 2;}
+    .prose h5 a { line-height: 2; margin-bottom: 0.5rem; color: #1e3a8a; }
+    .prose p { line-height: 2; margin-bottom: 0.4rem; }
+    .prose a { line-height: 2; margin-bottom: 0.5rem; color: #dc2626; }
+    .prose ul, .prose ol { background-color: #f8fafc; padding: 1rem 1.5rem 0.5rem 1.5rem; border-radius: 1rem; border: 1px solid #e2e8f0; }
+    .prose li { margin-bottom: 0.5rem; }
+    .prose li strong { color: #ca2525; }
+    .prose blockquote { font-style: normal; border-left: 5px solid #1e3a8a; background: #eff6ff; padding: 1.5rem; border-radius: 0 1rem 1rem 0; color: #1e40af; margin: 2rem 0; position: relative; }
+    .prose blockquote p::before { content: ""; display: block; font-weight: 900; font-size: 0.875rem; margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.1em; }
+    .prose strong { color: #0f172a; background: linear-gradient(180deg,transparent 60%, #dbeafe 0); }
+    .prose img { border-radius: 1rem; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); margin: 2rem auto; border: 1px solid #e2e8f0; }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+  </style>
+</head>
+<body class="bg-medical-light text-slate-800 font-sans antialiased min-h-screen flex flex-col">
+
+  <div id="app" class="max-w-[1400px] mx-auto px-4 md:px-8 py-8 flex-grow w-full flex flex-col">
+    
+    <div class="h-1.5 w-full bg-gradient-to-r from-medical-blue via-medical-light to-medical-red rounded-t-lg mb-6 shadow-sm shrink-0"></div>
+
+    <header class="bg-white rounded-2xl shadow-sm border border-slate-100 p-5 md:p-6 mb-8 flex flex-col md:flex-row justify-between items-center gap-4 shrink-0">
+      <div class="flex items-center gap-3 text-medical-blue">
+        <i class="fa-solid fa-star-of-life text-3xl md:text-4xl"></i>
+        <div>
+          <h1 class="text-xl md:text-2xl font-black tracking-wider">EMT-1</h1>
+          <p class="text-[10px] md:text-xs text-slate-400 font-mono tracking-widest uppercase">Professional Training System</p>
+        </div>
+      </div>
+      
+        <nav class="flex gap-2 overflow-x-auto w-full md:w-auto no-scrollbar pb-2 md:pb-0">
+          <a href="#Home" :class="navClass('Home')"><i class="fa-solid fa-house mr-1 md:mr-2"></i>首頁</a>
+          <a href="#Material" :class="navClass('Material')"><i class="fa-solid fa-book-medical mr-1 md:mr-2"></i>教材</a>
+          <a href="#Mcq" :class="navClass('Mcq')"><i class="fa-solid fa-file-signature mr-1 md:mr-2"></i>測驗</a>
+          <a href="#Gcs" :class="navClass('Gcs')"><i class="fa-solid fa-brain mr-1 md:mr-2"></i>GCS練習</a>
+          <a href="#Scenario" :class="navClass('Scenario')"><i class="fa-solid fa-truck-medical mr-1 md:mr-2"></i>模擬</a>
+        </nav>
+    </header>
+
+    <main class="relative flex-grow flex flex-col">
+      <transition name="fade-slide" mode="out-in">
+        <component :is="currentView" :catalogs="catalogs" :route-param="routeParam"></component>
+      </transition>
+    </main>
+
+  </div>
+
+  <footer class="text-center py-6 text-slate-400 text-sm mt-auto shrink-0 border-t border-slate-200 bg-white">
+    <p>&copy; 2026 Haimu. All rights reserved.</p>
+  </footer>
+
+<script type="module">
+    import Home from './components/Home.js';
+    import Material from './components/Material.js';
+    import Mcq from './components/Mcq.js';
+    import Gcs from './components/Gcs.js'; 
+    import Scenario from './components/Scenario.js';
+
+    const { createApp } = Vue;
+
+    createApp({
+      components: { Home, Material, Mcq, Gcs, Scenario },
+      data() {
+        return {
+          currentView: 'Home',
+          routeParam: null,
+          catalogs: {
+            materials: [
+              { title: "第一章：成人心肺復甦術 (CPR)", file: "ch1_cpr.md" }
+            ],
+            questions: [
+              { title: "題組一：基本生命徵象與創傷", file: "set1.json" }
+            ],
+            gcs: [
+              { title: "GCS 綜合情境練習 (含3題)", file: "set1.json" }
+            ],
+            scenarios: [
+              { title: "情境演練：十字路口機車車禍 (旗艦版)", file: "sce_car.json" }
+            ]
+          }
+        }
+      },
+      mounted() {
+        window.addEventListener('hashchange', this.onHashChange);
+        this.onHashChange();
+      },
+      unmounted() {
+        window.removeEventListener('hashchange', this.onHashChange);
+      },
+      methods: {
+        onHashChange() {
+          const fullHash = window.location.hash.replace('#', '');
+          const parts = fullHash.split('/'); 
+          const view = parts[0];
+          const param = parts[1] || null;
+
+          const validViews = ['Home', 'Material', 'Mcq', 'Gcs', 'Scenario'];
+          
+          if (validViews.includes(view)) {
+            this.currentView = view;
+            this.routeParam = param;
+          } else {
+            this.currentView = 'Home';
+            window.location.hash = 'Home';
+          }
+        },
+
+        navClass(viewName) {
+          const base = 'px-4 py-2 md:px-5 md:py-2.5 rounded-full text-xs md:text-sm font-bold transition-all duration-300 border flex items-center whitespace-nowrap ';
+          
+          if (this.currentView === viewName) {
+            return viewName === 'Scenario' 
+              ? base + 'bg-medical-red text-white border-medical-red shadow-md'
+              : base + 'bg-medical-blue text-white border-medical-blue shadow-md';
+          }
+          return base + 'text-slate-500 border-transparent hover:border-slate-300 hover:bg-slate-50';
+        }
+      }
+    }).mount('#app');
+  </script>
+</body>
+</html>
