@@ -3,11 +3,17 @@ export default {
   data() {
     return { 
       currentMaterialHtml: null,
-      readMaterials: []
+      readMaterials: [],
+      readTimeLeft: 0,
+      readInterval: null,
+      isAtBottom: false
     }
   },
   created() {
     this.loadHistory();
+  },
+  unmounted() {
+    if (this.readInterval) clearInterval(this.readInterval);
   },
   watch: {
     routeParam: {
@@ -17,6 +23,7 @@ export default {
           this.fetchMaterial(newFilename);
         } else {
           this.currentMaterialHtml = null; 
+          if (this.readInterval) clearInterval(this.readInterval);
         }
       }
     }
@@ -30,10 +37,16 @@ export default {
       this.readMaterials = history.materials || [];
     },
     
+    setLastViewed(filename) {
+      const history = JSON.parse(localStorage.getItem('emt_history') || '{}');
+      history.last_material = filename;
+      localStorage.setItem('emt_history', JSON.stringify(history));
+    },
+
     markAsRead(filename) {
       if (!this.readMaterials.includes(filename)) {
         this.readMaterials.push(filename);
-        const history = JSON.parse(localStorage.getItem('emt_history') || '{"materials":[]}');
+        const history = JSON.parse(localStorage.getItem('emt_history') || '{}');
         history.materials = this.readMaterials;
         localStorage.setItem('emt_history', JSON.stringify(history));
       }
@@ -44,8 +57,47 @@ export default {
         const res = await fetch('./data/materials/' + filename);
         const mdText = await res.text();
         this.currentMaterialHtml = marked.parse(mdText);
-        this.markAsRead(filename);
+        
+        this.setLastViewed(filename);
+
+        this.isAtBottom = false;
+        if (this.readInterval) clearInterval(this.readInterval);
+        if (!this.readMaterials.includes(filename)) {
+          this.readTimeLeft = 10;
+          this.readInterval = setInterval(() => {
+            this.readTimeLeft--;
+            if (this.readTimeLeft <= 0) {
+              clearInterval(this.readInterval);
+              if (this.isAtBottom) {
+                this.markAsRead(filename);
+              }
+            }
+          }, 1000);
+        } else {
+          this.readTimeLeft = 0;
+        }
+
+        this.$nextTick(() => {
+          const container = this.$refs.scrollContainer;
+          if (container) {
+            container.scrollTop = 0;
+            setTimeout(() => {
+              if (container.scrollHeight <= container.clientHeight + 10) {
+                this.isAtBottom = true;
+              }
+            }, 500);
+          }
+        });
       } catch (e) { alert("讀取教材失敗，請確認檔案路徑。"); }
+    },
+
+    checkScroll(e) {
+      const { scrollTop, clientHeight, scrollHeight } = e.target;
+      const reachedBottom = (scrollTop > 10 && (scrollTop + clientHeight >= scrollHeight - 50));
+      this.isAtBottom = reachedBottom || (scrollHeight <= clientHeight + 10);
+      if (this.isAtBottom && this.readTimeLeft <= 0 && this.routeParam) {
+        this.markAsRead(this.routeParam);
+      }
     }
   },
   template: `
@@ -73,13 +125,25 @@ export default {
       </div>
       
       <div v-else class="flex flex-col flex-1 h-full relative">
-        <div class="sticky top-0 z-20 bg-white/95 backdrop-blur-md border-b border-slate-200 p-3 md:p-5 flex items-center shadow-sm shrink-0">
+        <div class="sticky top-0 z-20 bg-white/95 backdrop-blur-md border-b border-slate-200 p-3 md:p-5 flex justify-between items-center shadow-sm shrink-0">
           <button @click="goBack" class="text-slate-500 hover:text-medical-blue text-sm md:text-base font-bold bg-slate-100 hover:bg-blue-50 px-5 py-2.5 rounded-full transition-colors flex items-center gap-2 border border-slate-200 shadow-sm">
             <i class="fa-solid fa-arrow-left"></i> 返回目錄
           </button>
+          
+          <div v-if="readMaterials.includes(routeParam)" class="bg-green-100 text-green-700 px-4 py-1.5 rounded-full text-xs md:text-sm font-bold border border-green-200 shadow-sm flex items-center gap-2 animate-pulse">
+            <i class="fa-solid fa-check-circle"></i> 閱讀完成
+          </div>
+          <div v-else-if="readTimeLeft > 0" class="bg-orange-100 text-orange-700 px-4 py-1.5 rounded-full text-xs md:text-sm font-bold border border-orange-200 shadow-sm flex items-center gap-2">
+            <i class="fa-solid fa-hourglass-half"></i> 需閱讀 {{ readTimeLeft }} 秒
+          </div>
+          <div v-else class="bg-blue-100 text-blue-700 px-4 py-1.5 rounded-full text-xs md:text-sm font-bold border border-blue-200 shadow-sm flex items-center gap-2">
+            <i class="fa-solid fa-arrow-down animate-bounce"></i> 請滑動至底部完成
+          </div>
+
         </div>
-        <div class="p-4 md:p-10 flex-1 overflow-y-auto w-full flex justify-center no-scrollbar bg-slate-100">
-          <div class="prose prose-slate prose-blue prose-sm md:prose-lg max-w-4xl w-full bg-white p-6 md:p-12 rounded-2xl md:rounded-3xl shadow-md border border-slate-200 leading-loose" v-html="currentMaterialHtml"></div>
+
+        <div ref="scrollContainer" @scroll="checkScroll" class="p-4 md:p-10 flex-1 overflow-y-auto w-full flex justify-center no-scrollbar bg-slate-100 relative scroll-smooth">
+          <div class="prose prose-slate prose-blue prose-sm md:prose-lg max-w-4xl w-full bg-white p-6 md:p-12 rounded-2xl md:rounded-3xl shadow-md border border-slate-200 leading-loose pb-24" v-html="currentMaterialHtml"></div>
         </div>
       </div>
     </div>
