@@ -62,7 +62,7 @@ export default {
     resetCaseState() {
       this.actionLogs = []; this.userE = null; this.userV = null; this.userM = null;
       this.showResult = false;
-      this.actionLogs.push("🩺 抵達現場，請點擊上方按鈕測試患者反應，並於右側給出 GCS 評分。");
+      this.actionLogs.push("🩺 抵達現場，請點擊上方按鈕測試患者反應，並於給出 GCS 評分。");
     },
     doAction(action) {
       if (this.showResult) return;
@@ -180,19 +180,19 @@ export default {
                   <div>
                     <p class="font-black text-slate-700 mb-2 md:mb-3 text-sm md:text-base"><span class="bg-blue-100 text-medical-blue px-2 py-0.5 rounded mr-2">E</span>睜眼反應 (Eye)</p>
                     <div class="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-3">
-                      <button v-for="val in [4,3,2,1]" :key="'e'+val" @click="userE = val" :class="['py-2 md:py-3 rounded-xl border-2 font-bold text-xs md:text-sm transition-all', userE === val ? 'bg-medical-blue border-medical-blue text-white shadow-md' : 'bg-white border-slate-200 text-slate-600 hover:border-medical-blue hover:text-medical-blue']">{{ val }} - {{ ['無反應', '痛刺激睜眼', '聲音刺激睜眼', '主動睜眼'][val-1] }}</button>
+                      <button v-for="val in [4,3,2,1]" :key="'e'+val" @click="userE = val" :class="['py-2 md:py-3 rounded-xl border-2 font-bold text-xs md:text-sm transition-all', userE === val ? 'bg-medical-blue border-medical-blue text-white shadow-md' : 'bg-white border-slate-200 text-slate-600 hover:border-medical-blue hover:text-medical-blue']">{{ val }} - {{ ['無反應', '疼痛刺激睜眼', '聲音刺激睜眼', '主動睜眼'][val-1] }}</button>
                     </div>
                   </div>
                   <div>
                     <p class="font-black text-slate-700 mb-2 md:mb-3 text-sm md:text-base"><span class="bg-green-100 text-green-700 px-2 py-0.5 rounded mr-2">V</span>最佳語言 (Verbal)</p>
                     <div class="grid grid-cols-2 md:grid-cols-5 gap-2 md:gap-3">
-                      <button v-for="val in [5,4,3,2,1]" :key="'v'+val" @click="userV = val" :class="['py-2 md:py-3 rounded-xl border-2 font-bold text-xs md:text-sm transition-all', userV === val ? 'bg-green-600 border-green-600 text-white shadow-md' : 'bg-white border-slate-200 text-slate-600 hover:border-green-600 hover:text-green-600']">{{ val }} - {{ ['無反應', '無意義聲音', '不適當字詞', '混亂', '定向力正常'][val-1] }}</button>
+                      <button v-for="val in [5,4,3,2,1]" :key="'v'+val" @click="userV = val" :class="['py-2 md:py-3 rounded-xl border-2 font-bold text-xs md:text-sm transition-all', userV === val ? 'bg-green-600 border-green-600 text-white shadow-md' : 'bg-white border-slate-200 text-slate-600 hover:border-green-600 hover:text-green-600']">{{ val }} - {{ ['無反應', '只能發出聲音', '只能說出單詞', '回答錯誤', '回答完整正確'][val-1] }}</button>
                     </div>
                   </div>
                   <div>
                     <p class="font-black text-slate-700 mb-2 md:mb-3 text-sm md:text-base"><span class="bg-orange-100 text-orange-700 px-2 py-0.5 rounded mr-2">M</span>最佳運動 (Motor)</p>
                     <div class="grid grid-cols-2 md:grid-cols-3 gap-2 md:gap-3">
-                      <button v-for="val in [6,5,4,3,2,1]" :key="'m'+val" @click="userM = val" :class="['py-2 md:py-3 rounded-xl border-2 font-bold text-xs md:text-sm transition-all', userM === val ? 'bg-orange-600 border-orange-600 text-white shadow-md' : 'bg-white border-slate-200 text-slate-600 hover:border-orange-600 hover:text-orange-600']">{{ val }} - {{ ['無反應', '異常伸展', '異常屈曲', '痛刺激退縮', '痛刺激定位', '遵從口令'][val-1] }}</button>
+                      <button v-for="val in [6,5,4,3,2,1]" :key="'m'+val" @click="userM = val" :class="['py-2 md:py-3 rounded-xl border-2 font-bold text-xs md:text-sm transition-all', userM === val ? 'bg-orange-600 border-orange-600 text-white shadow-md' : 'bg-white border-slate-200 text-slate-600 hover:border-orange-600 hover:text-orange-600']">{{ val }} - {{ ['無反應', '異常伸展', '異常屈曲', '疼痛刺激退縮', '痛刺激定位', '遵從口令'][val-1] }}</button>
                     </div>
                   </div>
                 </div>
