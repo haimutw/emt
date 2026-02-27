@@ -188,8 +188,8 @@
         setTimeout(() => {
           if (window.google) {
             this.googleTokenClient = google.accounts.oauth2.initTokenClient({
-              client_id: "", 
-              scope: "",
+              client_id: "84232068621-ffnj02d13eoilf2j7nogjoqh53sn09rd.apps.googleusercontent.com", 
+              scope: "profile email",
               callback: async (tokenResponse) => {
                 if (tokenResponse && tokenResponse.access_token) {
                   this.fetchGoogleUserProfile(tokenResponse.access_token);

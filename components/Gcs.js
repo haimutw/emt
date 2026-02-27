@@ -6,13 +6,23 @@ export default {
       currentIndex: 0, 
       practiceCount: 1, 
       
-      latestActionName: "系統提示",
-      latestReaction: "🩺 抵達現場，請點擊上方按鈕測試患者反應，並給出 GCS 評分。",
+      latestActionName: "提示",
+      latestReaction: "抵達現場，請點擊上方按鈕測試患者反應，並給出評分。",
       
       userE: null, userV: null, userM: null,
       showResult: false, isActionInProgress: false,
+      showHelperText: false,
 
-      showHelperText: false
+      actionProgress: { call: false, tap: false, pain: false, talk: false, motor: false, motorPain: false },
+ 
+      fixedActions: [
+        { id: 'call', name: '呼叫患者', icon: 'fa-bullhorn', req: null },
+        { id: 'tap', name: '拍肩呼叫', icon: 'fa-hand', req: 'call' },
+        { id: 'pain', name: '疼痛刺激', icon: 'fa-bolt', req: 'tap' },
+        { id: 'talk', name: '對話測試', icon: 'fa-comment-medical', req: null },
+        { id: 'motor', name: '運動測試', icon: 'fa-person-walking', req: null },
+        { id: 'motorPain', name: '運動刺激', icon: 'fa-bolt', req: 'motor' }
+      ]
     }
   },
   watch: {
@@ -66,6 +76,7 @@ export default {
     resetCaseState() {
       this.userE = null; this.userV = null; this.userM = null;
       this.showResult = false;
+      this.actionProgress = { call: false, tap: false, pain: false, talk: false, motor: false, motorPain: false };
       this.latestActionName = "系統提示";
       this.latestReaction = "🩺 抵達現場，請點擊上方按鈕測試患者反應，並給出 GCS 評分。";
       
@@ -74,12 +85,18 @@ export default {
     },
     doAction(action) {
       if (this.showResult || this.isActionInProgress) return;
+      if (action.req && !this.actionProgress[action.req]) {
+        this.$emit('show-toast', { msg: '請依序執行評估步驟！', type: 'error' });
+        return;
+      }
+
       this.isActionInProgress = true;
       this.latestActionName = action.name;
       this.latestReaction = "測試中...";
       
       setTimeout(() => {
-        this.latestReaction = action.log;
+        this.actionProgress[action.id] = true;
+        this.latestReaction = this.currentCase.responses ? (this.currentCase.responses[action.name] || "（沒有反應）") : "資料格式錯誤";
         this.isActionInProgress = false;
       }, 500); 
     },
@@ -134,8 +151,13 @@ export default {
               <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700 p-3 md:p-4 shrink-0">
                 <h4 class="text-xs font-black text-slate-400 uppercase border-b border-slate-100 dark:border-slate-700 pb-2 mb-3"><i class="fa-solid fa-stethoscope mr-2"></i> 選擇測試項目</h4>
                 <div class="grid grid-cols-2 md:grid-cols-3 gap-2">
-                  <button v-for="(act, idx) in currentCase.actions" :key="idx" @click="doAction(act)" :disabled="showResult" :class="['py-2 px-2 rounded-xl border-2 text-xs md:text-sm font-bold transition-all shadow-sm flex flex-col items-center justify-center gap-1 active:scale-95', showResult ? 'opacity-40 cursor-not-allowed border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-slate-400' : 'border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-700 hover:border-medical-blue dark:hover:border-blue-500 hover:text-medical-blue dark:hover:text-blue-400 text-slate-700 dark:text-slate-200 hover:bg-blue-50 dark:hover:bg-blue-900/30']">
-                    <i :class="['fa-solid md:text-lg mb-0.5', act.name.includes('呼喚') ? 'fa-bullhorn' : act.name.includes('拍肩') ? 'fa-hand' : act.name.includes('痛') ? 'fa-bolt' : 'fa-hand-pointer']"></i>
+                  <button v-for="act in fixedActions" :key="act.id" @click="doAction(act)" :disabled="showResult || (act.req && !actionProgress[act.req])" 
+                    :class="['py-2 px-2 rounded-xl border-2 text-xs md:text-sm font-bold transition-all shadow-sm flex flex-col items-center justify-center gap-1 active:scale-95', 
+                             showResult ? 'opacity-40 cursor-not-allowed border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-slate-400' : 
+                             (act.req && !actionProgress[act.req]) ? 'opacity-50 cursor-not-allowed border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 text-slate-400' : 
+                             actionProgress[act.id] ? 'border-medical-blue dark:border-blue-500 bg-blue-50 dark:bg-blue-900/30 text-medical-blue dark:text-blue-400' : 
+                             'border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-700 hover:border-medical-blue dark:hover:border-blue-500 hover:text-medical-blue dark:hover:text-blue-400 text-slate-700 dark:text-slate-200 hover:bg-blue-50 dark:hover:bg-blue-900/30']">
+                    <i :class="['fa-solid md:text-lg mb-0.5', act.icon]"></i>
                     {{ act.name }}
                   </button>
                 </div>
