@@ -1,226 +1,272 @@
 export default {
-  props: ['catalogs', 'routeParam'],
+  props: ['catalogs', 'routeParam', 'userHistory'],
   data() {
     return {
-      currentFile: null, cases: [], currentIndex: 0,
-      actionLogs: [], userE: null, userV: null, userM: null,
-      showResult: false, showCompletionModal: false, correctCount: 0,
-      isActionInProgress: false, gcsScores: {}
+      cases: [], 
+      currentIndex: 0, 
+      practiceCount: 1, 
+      
+      latestActionName: "系統提示",
+      latestReaction: "🩺 抵達現場，請點擊上方按鈕測試患者反應，並給出 GCS 評分。",
+      
+      userE: null, userV: null, userM: null,
+      showResult: false, isActionInProgress: false,
+
+      showHelperText: false
     }
   },
-  created() { this.loadHistory(); },
   watch: {
-    routeParam: {
+    catalogs: {
       immediate: true,
-      handler(newFilename) {
-        if (newFilename) this.fetchGcs(newFilename);
-        else this.resetState();
+      deep: true,
+      handler(newVals) {
+        if (newVals && newVals.gcs && newVals.gcs.length > 0 && this.cases.length === 0) {
+          this.fetchGcs();
+        }
       }
     }
   },
   computed: {
-    currentCase() { return this.cases[this.currentIndex]; },
+    currentCase() { return this.cases[this.currentIndex] || {}; },
     userTotal() {
       if (this.userE && this.userV && this.userM) return this.userE + this.userV + this.userM;
       return '-';
     },
     isCorrect() {
-      if (!this.currentCase || !this.showResult) return false;
+      if (!this.currentCase.answer || !this.showResult) return false;
       const ans = this.currentCase.answer;
       return this.userE === ans.e && this.userV === ans.v && this.userM === ans.m;
     }
   },
   methods: {
-    openGcs(filename) { window.location.hash = `#Gcs/${filename}`; },
-    goBack() { window.location.hash = `#Gcs`; },
-    resetState() {
-      this.currentFile = null; this.showCompletionModal = false; this.showResult = false;
+    shuffleArray(array) {
+      let newArr = [...array];
+      for (let i = newArr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [newArr[i], newArr[j]] = [newArr[j], newArr[i]];
+      }
+      return newArr;
     },
-    loadHistory() {
-      const history = JSON.parse(localStorage.getItem('emt_history') || '{"gcs":{}}');
-      this.gcsScores = history.gcs || {};
-    },
-    saveScore(filename, score) {
-      const oldScore = this.gcsScores[filename] || 0;
-      if (score >= oldScore) {
-        this.gcsScores[filename] = score;
-        const history = JSON.parse(localStorage.getItem('emt_history') || '{"gcs":{}}');
-        history.gcs = this.gcsScores;
-        localStorage.setItem('emt_history', JSON.stringify(history));
+    async fetchGcs() {
+      try {
+        let allCases = [];
+        for (let item of this.catalogs.gcs) {
+          const res = await fetch('./data/gcs/' + item.file);
+          const data = await res.json();
+          allCases = allCases.concat(data);
+        }
+        this.cases = this.shuffleArray(allCases);
+        this.currentIndex = 0;
+        this.practiceCount = 1;
+        this.resetCaseState();
+      } catch (e) { 
+        this.$emit('show-toast', { msg: '讀取 GCS 題庫失敗。', type: 'error' });
       }
     },
-    async fetchGcs(filename) {
-      try {
-        const res = await fetch('./data/gcs/' + filename);
-        this.cases = await res.json();
-        this.currentFile = filename;
-        this.currentIndex = 0;
-        this.correctCount = 0;
-        this.resetCaseState();
-      } catch (e) { alert("讀取 GCS 題庫失敗。"); }
-    },
     resetCaseState() {
-      this.actionLogs = []; this.userE = null; this.userV = null; this.userM = null;
+      this.userE = null; this.userV = null; this.userM = null;
       this.showResult = false;
-      this.actionLogs.push("🩺 抵達現場，請點擊上方按鈕測試患者反應，並於給出 GCS 評分。");
+      this.latestActionName = "系統提示";
+      this.latestReaction = "🩺 抵達現場，請點擊上方按鈕測試患者反應，並給出 GCS 評分。";
+      
+      const container = this.$refs.gcsContainer;
+      if (container) container.scrollTo({ top: 0, behavior: 'smooth' });
     },
     doAction(action) {
-      if (this.showResult) return;
+      if (this.showResult || this.isActionInProgress) return;
       this.isActionInProgress = true;
+      this.latestActionName = action.name;
+      this.latestReaction = "測試中...";
+      
       setTimeout(() => {
-        this.actionLogs.unshift(`[${action.name}] ${action.log}`);
+        this.latestReaction = action.log;
         this.isActionInProgress = false;
-      }, 600);
+      }, 500); 
     },
     checkAnswer() {
       if (!this.userE || !this.userV || !this.userM) {
-        alert("請完整選擇 E、V、M 的分數！"); return;
+        this.$emit('show-toast', { msg: '請完整選擇 E、V、M 的分數！', type: 'error' });
+        return;
       }
       this.showResult = true;
-      if (this.isCorrect) this.correctCount++;
     },
     nextCase() {
+      this.practiceCount++;
       if (this.currentIndex + 1 < this.cases.length) {
         this.currentIndex++;
-        this.resetCaseState();
       } else {
-        const finalScore = Math.round((this.correctCount / this.cases.length) * 100);
-        this.saveScore(this.currentFile, finalScore);
-        this.showCompletionModal = true;
+        this.cases = this.shuffleArray(this.cases);
+        this.currentIndex = 0;
+        this.$emit('show-toast', { msg: '題庫已全數練習完畢，已重新洗牌！', type: 'success' });
       }
+      this.resetCaseState();
     }
   },
   template: `
-    <div class="bg-slate-50 md:rounded-2xl shadow-sm border-x border-b md:border-t border-slate-200 relative overflow-hidden flex flex-col w-full min-h-[80vh] md:min-h-[85vh]">
+    <div class="bg-slate-50 dark:bg-slate-900 md:rounded-2xl shadow-sm border-x border-b md:border-t border-slate-200 dark:border-slate-700 relative overflow-hidden flex flex-col w-full h-full transition-colors">
       
-      <transition name="fade-slide">
-        <div v-if="showCompletionModal" class="fixed inset-0 bg-slate-900/95 backdrop-blur-md z-[100] flex flex-col items-center justify-center text-center p-4 w-full h-full">
-          <i class="fa-solid fa-brain text-7xl md:text-8xl text-yellow-400 mb-6 animate-pulse mt-10"></i>
-          <h2 class="text-3xl md:text-5xl font-black text-white mb-4 tracking-widest">GCS 測驗完成</h2>
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-8 w-full max-w-2xl mb-10 mt-6">
-            <div class="bg-slate-800 rounded-2xl p-6 md:p-8 border border-slate-700 shadow-inner">
-              <p class="text-slate-400 text-sm md:text-base font-bold mb-2">答對題數</p>
-              <p class="text-5xl md:text-6xl font-black text-cyan-400">{{ correctCount }}<span class="text-2xl md:text-3xl text-slate-500"> / {{ cases.length }}</span></p>
-            </div>
-            <div class="bg-slate-800 rounded-2xl p-6 md:p-8 border border-slate-700 shadow-inner">
-              <p class="text-slate-400 text-sm md:text-base font-bold mb-2">總結算分數</p>
-              <p :class="['text-6xl md:text-7xl font-black', Math.round((correctCount/cases.length)*100) >= 80 ? 'text-green-400' : 'text-red-400']">{{ Math.round((correctCount/cases.length)*100) }} <span class="text-2xl font-medium">分</span></p>
-            </div>
-          </div>
-          <button @click="goBack" class="px-10 py-4 w-full max-w-md bg-medical-blue text-white rounded-full font-bold text-lg md:text-xl hover:bg-blue-800 shadow-lg border-2 border-blue-400 transition-all">返回目錄</button>
-        </div>
-      </transition>
-
-      <div v-if="!currentFile" class="p-5 md:p-10 flex-1 flex flex-col">
-        <h2 class="text-2xl md:text-3xl font-bold text-medical-blue mb-6 md:mb-8 border-l-4 border-medical-blue pl-4 tracking-wide">選擇 GCS 練習題組</h2>
-        <div class="grid gap-4 md:gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          <button v-for="item in catalogs.gcs" :key="item.file" @click="openGcs(item.file)" class="text-left p-6 md:p-8 rounded-3xl border-2 border-slate-200 bg-white hover:border-medical-blue hover:shadow-xl transition-all group relative overflow-hidden flex flex-col justify-between h-full">
-            <div v-if="gcsScores[item.file] !== undefined" class="absolute top-0 right-0 text-white px-3 py-1.5 rounded-bl-2xl font-bold text-[10px] md:text-xs shadow-sm bg-medical-blue">
-              <i class="fa-solid fa-star mr-1"></i>最高分: {{ gcsScores[item.file] }}
-            </div>
-            <div>
-              <i class="fa-solid fa-brain text-4xl md:text-5xl text-slate-300 group-hover:text-medical-blue mb-4 md:mb-6 block transition-colors mt-2"></i>
-              <span class="font-black text-lg md:text-xl text-slate-700 group-hover:text-medical-blue leading-snug">{{ item.title }}</span>
-            </div>
-          </button>
-        </div>
+      <div v-if="cases.length === 0" class="flex-1 flex flex-col items-center justify-center">
+        <i class="fa-solid fa-spinner fa-spin-pulse text-4xl text-medical-blue dark:text-blue-400 mb-4"></i>
+        <p class="text-slate-500 font-bold tracking-widest">載入題庫中...</p>
       </div>
       
-      <div v-else class="flex flex-col flex-1 h-full relative">
-        <div class="sticky top-0 z-30 bg-white/95 backdrop-blur-md border-b border-slate-200 p-3 md:p-5 flex justify-between items-center shadow-sm shrink-0">
-          <button @click="goBack" class="text-slate-500 hover:text-medical-blue text-sm md:text-base font-bold bg-slate-100 hover:bg-blue-50 px-4 py-2 md:px-5 md:py-2.5 rounded-full transition-colors flex items-center gap-2 border border-slate-200 shadow-sm"><i class="fa-solid fa-arrow-left"></i> <span class="hidden md:inline">返回</span></button>
-          <div class="bg-blue-50 border border-blue-200 text-medical-blue px-3 py-1.5 md:px-4 md:py-2 rounded-lg text-xs md:text-sm font-bold shadow-sm">
-            進度: {{ currentIndex + 1 }} / {{ cases.length }}
+      <div v-else class="flex flex-col flex-1 h-full relative overflow-hidden">
+        
+        <div class="z-30 bg-white/95 dark:bg-slate-800/95 backdrop-blur-md border-b border-slate-200 dark:border-slate-700 p-2.5 md:p-4 flex justify-between items-center shadow-sm shrink-0 transition-colors">
+          <div class="flex items-center gap-2 md:gap-3 px-2">
+            <i class="fa-solid fa-brain text-xl md:text-2xl text-medical-blue dark:text-blue-400"></i>
+            <h3 class="font-black text-base md:text-xl text-slate-800 dark:text-slate-100">GCS 練習</h3>
+          </div>
+          <div class="bg-blue-50 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-800 text-medical-blue dark:text-blue-400 px-3 py-1 md:px-4 md:py-1.5 rounded-xl text-xs md:text-sm font-bold shadow-sm flex items-center gap-2">
+            <i class="fa-solid fa-infinity"></i> 練習數: {{ practiceCount }}
           </div>
         </div>
         
-        <div class="p-3 md:p-6 lg:p-8 flex-1 overflow-y-auto no-scrollbar w-full">
-          <div class="flex flex-col lg:grid lg:grid-cols-12 gap-5 md:gap-8 w-full h-full">
+        <div ref="gcsContainer" class="p-3 md:p-5 flex-1 overflow-y-auto overscroll-none no-scrollbar w-full scroll-smooth">
+          <div class="flex flex-col lg:grid lg:grid-cols-12 gap-4 md:gap-6 w-full h-full">
             
-            <div class="lg:col-span-5 flex flex-col gap-4 md:gap-6 w-full">
-              <div class="p-5 md:p-8 rounded-2xl shadow-sm border-2 bg-white border-slate-200">
-                <h3 class="font-black text-sm md:text-base mb-3 uppercase flex items-center gap-2 text-medical-blue"><i class="fa-solid fa-clipboard-user"></i> 病患情境</h3>
-                <p class="text-base md:text-lg leading-relaxed font-medium text-slate-700">{{ currentCase.description }}</p>
+            <div class="lg:col-span-5 flex flex-col gap-3 md:gap-4 w-full h-full">
+              <div class="p-4 md:p-5 rounded-2xl shadow-sm border-2 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 shrink-0">
+                <h3 class="font-black text-sm mb-2 uppercase flex items-center gap-2 text-medical-blue dark:text-blue-400"><i class="fa-solid fa-clipboard-user"></i> 情境宣示</h3>
+                <p class="text-sm md:text-base leading-relaxed font-bold text-slate-700 dark:text-slate-200">{{ currentCase.description }}</p>
               </div>
 
-              <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-4 md:p-6">
-                <h4 class="text-xs md:text-sm font-black text-slate-400 uppercase border-b border-slate-100 pb-2 mb-3"><i class="fa-solid fa-stethoscope mr-2"></i> 執行反應測試</h4>
-                <div class="flex flex-wrap gap-2 md:gap-3">
-                  <button v-for="(act, idx) in currentCase.actions" :key="idx" @click="doAction(act)" :disabled="showResult" :class="['px-3 py-2 md:px-4 md:py-3 rounded-xl border-2 text-xs md:text-sm font-bold transition-all shadow-sm active:scale-95', showResult ? 'opacity-50 cursor-not-allowed border-slate-200 bg-slate-50 text-slate-400' : 'border-slate-200 bg-white hover:border-medical-blue hover:text-medical-blue text-slate-700']">
+              <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700 p-3 md:p-4 shrink-0">
+                <h4 class="text-xs font-black text-slate-400 uppercase border-b border-slate-100 dark:border-slate-700 pb-2 mb-3"><i class="fa-solid fa-stethoscope mr-2"></i> 選擇測試項目</h4>
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-2">
+                  <button v-for="(act, idx) in currentCase.actions" :key="idx" @click="doAction(act)" :disabled="showResult" :class="['py-2 px-2 rounded-xl border-2 text-xs md:text-sm font-bold transition-all shadow-sm flex flex-col items-center justify-center gap-1 active:scale-95', showResult ? 'opacity-40 cursor-not-allowed border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-slate-400' : 'border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-700 hover:border-medical-blue dark:hover:border-blue-500 hover:text-medical-blue dark:hover:text-blue-400 text-slate-700 dark:text-slate-200 hover:bg-blue-50 dark:hover:bg-blue-900/30']">
+                    <i :class="['fa-solid md:text-lg mb-0.5', act.name.includes('呼喚') ? 'fa-bullhorn' : act.name.includes('拍肩') ? 'fa-hand' : act.name.includes('痛') ? 'fa-bolt' : 'fa-hand-pointer']"></i>
                     {{ act.name }}
                   </button>
                 </div>
               </div>
 
-              <div class="bg-slate-800 rounded-2xl shadow-inner border border-slate-700 p-4 md:p-6 flex flex-col h-48 md:h-64 w-full relative">
-                <div v-if="isActionInProgress" class="absolute inset-0 bg-slate-900/60 z-10 flex items-center justify-center rounded-2xl"><i class="fa-solid fa-spinner fa-spin text-3xl text-white"></i></div>
-                <h4 class="text-xs font-black text-slate-400 uppercase mb-3 flex justify-between items-center border-b border-slate-700 pb-2">
-                  <span><i class="fa-solid fa-list-ul mr-2"></i> 反應日誌</span><span class="text-[10px] opacity-70">最新在上方</span>
-                </h4>
-                <div class="overflow-y-auto no-scrollbar space-y-2 flex-1 w-full pr-1">
-                  <div v-for="(log, idx) in actionLogs" :key="idx" class="text-slate-300 text-xs md:text-sm border-l-4 border-medical-blue pl-3 py-2 bg-slate-900/60 rounded-r-lg leading-relaxed font-medium">{{ log }}</div>
+              <transition name="fade-slide" mode="out-in">
+                <div :key="latestActionName" class="flex-1 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/40 dark:to-indigo-900/40 rounded-2xl shadow-md border-2 border-blue-200 dark:border-blue-800 p-4 md:p-6 flex flex-col items-center justify-center text-center min-h-[140px] relative overflow-hidden">
+                  <div class="absolute top-0 right-0 w-24 h-24 bg-blue-500/10 rounded-bl-full -z-10"></div>
+                  <div v-if="isActionInProgress" class="flex flex-col items-center gap-2 text-medical-blue dark:text-blue-400">
+                    <i class="fa-solid fa-spinner fa-spin-pulse text-3xl"></i>
+                    <p class="font-bold tracking-widest text-xs animate-pulse">{{ latestActionName }}中...</p>
+                  </div>
+                  <div v-else class="w-full">
+                    <span class="inline-block bg-medical-blue text-white px-2.5 py-1 rounded-full text-[10px] md:text-xs font-bold tracking-widest mb-2 shadow-sm">
+                      <i class="fa-solid fa-comment-medical mr-1"></i>{{ latestActionName }}
+                    </span>
+                    <p class="text-lg md:text-xl font-black text-slate-800 dark:text-slate-100 leading-snug">{{ latestReaction }}</p>
+                  </div>
                 </div>
-              </div>
+              </transition>
             </div>
 
             <div class="lg:col-span-7 flex flex-col w-full h-full relative">
-              <div class="bg-white border border-slate-200 shadow-sm rounded-2xl p-4 md:p-6 w-full flex flex-col relative">
+              <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm rounded-2xl p-4 md:p-5 w-full flex flex-col h-full transition-colors relative">
                 
-                <div class="flex justify-between items-center mb-4 md:mb-6 border-b border-slate-100 pb-3">
-                  <div class="flex items-center gap-3">
-                    <i class="fa-solid fa-calculator text-2xl md:text-3xl text-medical-red"></i>
-                    <h3 class="font-black text-lg md:text-2xl text-slate-800">GCS 評分面板</h3>
+                <div class="flex flex-wrap justify-between items-center gap-3 mb-3 md:mb-4 border-b border-slate-100 dark:border-slate-700 pb-3 shrink-0">
+                  <div class="flex items-center gap-2 md:gap-3">
+                    <i class="fa-solid fa-calculator text-xl md:text-2xl text-medical-red dark:text-red-500"></i>
+                    <h3 class="font-black text-base md:text-xl text-slate-800 dark:text-slate-100">GCS 評估</h3>
                   </div>
-                  <div class="bg-slate-800 text-white px-4 py-2 rounded-xl font-mono font-black text-xl md:text-2xl shadow-inner">
-                    E{{ userE || '-' }} V{{ userV || '-' }} M{{ userM || '-' }} <span class="text-sm md:text-base font-sans text-slate-400 ml-2">Total:</span> <span class="text-green-400">{{ userTotal }}</span>
-                  </div>
-                </div>
-
-                <div class="space-y-4 md:space-y-6 flex-1 overflow-y-auto no-scrollbar pb-24" :class="{'opacity-50 pointer-events-none': showResult}">
-                  <div>
-                    <p class="font-black text-slate-700 mb-2 md:mb-3 text-sm md:text-base"><span class="bg-blue-100 text-medical-blue px-2 py-0.5 rounded mr-2">E</span>睜眼反應 (Eye)</p>
-                    <div class="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-3">
-                      <button v-for="val in [4,3,2,1]" :key="'e'+val" @click="userE = val" :class="['py-2 md:py-3 rounded-xl border-2 font-bold text-xs md:text-sm transition-all', userE === val ? 'bg-medical-blue border-medical-blue text-white shadow-md' : 'bg-white border-slate-200 text-slate-600 hover:border-medical-blue hover:text-medical-blue']">{{ val }} - {{ ['無反應', '疼痛刺激睜眼', '聲音刺激睜眼', '主動睜眼'][val-1] }}</button>
-                    </div>
-                  </div>
-                  <div>
-                    <p class="font-black text-slate-700 mb-2 md:mb-3 text-sm md:text-base"><span class="bg-green-100 text-green-700 px-2 py-0.5 rounded mr-2">V</span>最佳語言 (Verbal)</p>
-                    <div class="grid grid-cols-2 md:grid-cols-5 gap-2 md:gap-3">
-                      <button v-for="val in [5,4,3,2,1]" :key="'v'+val" @click="userV = val" :class="['py-2 md:py-3 rounded-xl border-2 font-bold text-xs md:text-sm transition-all', userV === val ? 'bg-green-600 border-green-600 text-white shadow-md' : 'bg-white border-slate-200 text-slate-600 hover:border-green-600 hover:text-green-600']">{{ val }} - {{ ['無反應', '只能發出聲音', '只能說出單詞', '回答錯誤', '回答完整正確'][val-1] }}</button>
-                    </div>
-                  </div>
-                  <div>
-                    <p class="font-black text-slate-700 mb-2 md:mb-3 text-sm md:text-base"><span class="bg-orange-100 text-orange-700 px-2 py-0.5 rounded mr-2">M</span>最佳運動 (Motor)</p>
-                    <div class="grid grid-cols-2 md:grid-cols-3 gap-2 md:gap-3">
-                      <button v-for="val in [6,5,4,3,2,1]" :key="'m'+val" @click="userM = val" :class="['py-2 md:py-3 rounded-xl border-2 font-bold text-xs md:text-sm transition-all', userM === val ? 'bg-orange-600 border-orange-600 text-white shadow-md' : 'bg-white border-slate-200 text-slate-600 hover:border-orange-600 hover:text-orange-600']">{{ val }} - {{ ['無反應', '異常伸展', '異常屈曲', '疼痛刺激退縮', '痛刺激定位', '遵從口令'][val-1] }}</button>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="absolute bottom-0 left-0 w-full p-4 md:p-6 bg-white border-t border-slate-100 rounded-b-2xl">
-                  <button v-if="!showResult" @click="checkAnswer" class="w-full py-4 bg-slate-800 text-white rounded-xl font-black text-lg md:text-xl shadow-lg hover:bg-slate-700 transition-all active:scale-[0.98]">提交 GCS 評估</button>
                   
-                  <div v-else class="w-full flex flex-col md:flex-row items-center justify-between gap-4 p-4 rounded-xl shadow-inner border-2" :class="isCorrect ? 'bg-green-50 border-green-200' : 'bg-red-50 border-red-200'">
-                    <div class="flex items-center gap-4 w-full md:w-auto">
-                      <i :class="['fa-solid text-4xl', isCorrect ? 'fa-circle-check text-green-500' : 'fa-triangle-exclamation text-red-500']"></i>
-                      <div>
-                        <h4 :class="['font-black text-lg', isCorrect ? 'text-green-700' : 'text-red-700']">{{ isCorrect ? '判斷正確！' : '判斷錯誤' }}</h4>
-                        <p class="text-xs md:text-sm font-bold text-slate-600 mt-1">正解：E{{currentCase.answer.e}} V{{currentCase.answer.v}} M{{currentCase.answer.m}} ({{currentCase.answer.e + currentCase.answer.v + currentCase.answer.m}}分)</p>
-                      </div>
+                  <div class="flex items-center gap-2 md:gap-3 w-full md:w-auto justify-between md:justify-end">
+                    <div class="flex items-center bg-slate-100 dark:bg-slate-700/50 rounded-full p-0.5 border border-slate-200 dark:border-slate-600 shrink-0">
+                      <button @click="showHelperText = false" :class="['px-3 py-1 rounded-full text-[10px] md:text-xs font-bold transition-all', !showHelperText ? 'bg-white dark:bg-slate-800 shadow-sm text-medical-blue dark:text-blue-400' : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300']">數字</button>
+                      <button @click="showHelperText = true" :class="['px-3 py-1 rounded-full text-[10px] md:text-xs font-bold transition-all', showHelperText ? 'bg-white dark:bg-slate-800 shadow-sm text-medical-blue dark:text-blue-400' : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300']">提示</button>
                     </div>
-                    <button @click="nextCase" class="w-full md:w-auto px-6 py-3 bg-medical-blue text-white rounded-xl font-bold shadow-md hover:bg-blue-800 transition-all whitespace-nowrap">下一題 <i class="fa-solid fa-arrow-right ml-1"></i></button>
+                    
+                    <div class="bg-slate-800 dark:bg-slate-900 text-white px-3 py-1.5 rounded-lg font-mono font-black text-sm md:text-base shadow-inner border border-slate-600 shrink-0 flex items-center">
+                      E{{ userE || '-' }} V{{ userV || '-' }} M{{ userM || '-' }} <span class="text-[10px] md:text-xs font-sans text-slate-400 ml-1.5 md:ml-2">Total:</span> <span class="text-green-400 ml-1">{{ userTotal }}</span>
+                    </div>
                   </div>
                 </div>
 
-              </div>
-              
-              <transition name="fade-slide">
-                <div v-if="showResult" class="mt-4 bg-white p-4 md:p-5 rounded-xl border border-slate-200 shadow-sm relative">
-                  <span class="font-black text-medical-blue text-xs md:text-sm tracking-widest block mb-2"><i class="fa-solid fa-chalkboard-user mr-1.5"></i>教官解析</span>
-                  <p class="text-slate-700 text-sm md:text-base leading-relaxed font-medium">{{ currentCase.explanation }}</p>
+                <div class="flex-1 relative flex flex-col">
+                  <transition name="fade-slide" mode="out-in">
+                    
+                    <div v-if="!showResult" key="scoring" class="flex flex-col justify-between h-full gap-2">
+                      <div class="space-y-2 md:space-y-3 flex-1 overflow-y-auto no-scrollbar pr-1">
+                        
+                        <div class="bg-slate-50 dark:bg-slate-900/50 p-2 md:p-3 rounded-xl border border-slate-100 dark:border-slate-700">
+                          <p class="font-black text-slate-700 dark:text-slate-200 mb-2 text-xs md:text-sm"><span class="bg-blue-100 dark:bg-blue-900/50 text-medical-blue dark:text-blue-400 px-1.5 py-0.5 rounded mr-1.5">E</span>睜眼反應</p>
+                          <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
+                            <button v-for="val in [4,3,2,1]" :key="'e'+val" @click="userE = val" 
+                              :class="['border-2 transition-all shadow-sm active:scale-95 flex flex-col items-center justify-center py-2 md:py-3 rounded-xl gap-0.5', 
+                                       userE === val ? 'bg-medical-blue border-medical-blue text-white shadow-md transform scale-[1.05]' : 'bg-white dark:bg-slate-700 border-slate-200 dark:border-slate-600 text-slate-600 dark:text-slate-300 hover:border-medical-blue dark:hover:border-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/30']">
+                              <span class="text-xl md:text-2xl font-black">{{ val }}</span>
+                              <span v-if="showHelperText" class="text-[11px] md:text-xs font-bold leading-tight mt-0.5">{{ ['沒有反應', '疼痛刺激睜眼', '呼喚睜眼', '主動睜眼'][val-1] }}</span>
+                            </button>
+                          </div>
+                        </div>
+
+                        <div class="bg-slate-50 dark:bg-slate-900/50 p-2 md:p-3 rounded-xl border border-slate-100 dark:border-slate-700">
+                          <p class="font-black text-slate-700 dark:text-slate-200 mb-2 text-xs md:text-sm"><span class="bg-green-100 dark:bg-green-900/50 text-green-700 dark:text-green-400 px-1.5 py-0.5 rounded mr-1.5">V</span>最佳語言</p>
+                          <div class="grid grid-cols-3 md:grid-cols-5 gap-2">
+                            <button v-for="val in [5,4,3,2,1]" :key="'v'+val" @click="userV = val" 
+                              :class="['border-2 transition-all shadow-sm active:scale-95 flex flex-col items-center justify-center py-2 md:py-3 px-1 rounded-xl gap-0.5', 
+                                       userV === val ? 'bg-green-600 border-green-600 text-white shadow-md transform scale-[1.05]' : 'bg-white dark:bg-slate-700 border-slate-200 dark:border-slate-600 text-slate-600 dark:text-slate-300 hover:border-green-600 hover:text-green-600 dark:hover:text-green-400 hover:bg-green-50 dark:hover:bg-green-900/30']">
+                              <span class="text-xl md:text-2xl font-black">{{ val }}</span>
+                              <span v-if="showHelperText" class="text-[10px] md:text-[11px] font-bold leading-tight mt-0.5">{{ ['沒有反應', '只能發出聲音', '只能說出單詞', '回答錯誤', '回答正確'][val-1] }}</span>
+                            </button>
+                          </div>
+                        </div>
+
+                        <div class="bg-slate-50 dark:bg-slate-900/50 p-2 md:p-3 rounded-xl border border-slate-100 dark:border-slate-700">
+                          <p class="font-black text-slate-700 dark:text-slate-200 mb-2 text-xs md:text-sm"><span class="bg-orange-100 dark:bg-orange-900/50 text-orange-700 dark:text-orange-400 px-1.5 py-0.5 rounded mr-1.5">M</span>最佳運動</p>
+                          <div class="grid grid-cols-3 md:grid-cols-6 gap-2">
+                            <button v-for="val in [6,5,4,3,2,1]" :key="'m'+val" @click="userM = val" 
+                              :class="['border-2 transition-all shadow-sm active:scale-95 flex flex-col items-center justify-center py-2 md:py-3 px-1 rounded-xl gap-0.5', 
+                                       userM === val ? 'bg-orange-600 border-orange-600 text-white shadow-md transform scale-[1.05]' : 'bg-white dark:bg-slate-700 border-slate-200 dark:border-slate-600 text-slate-600 dark:text-slate-300 hover:border-orange-600 hover:text-orange-600 dark:hover:text-orange-400 hover:bg-orange-50 dark:hover:bg-orange-900/30']">
+                              <span class="text-xl md:text-2xl font-black">{{ val }}</span>
+                              <span v-if="showHelperText" class="text-[10px] md:text-[11px] font-bold leading-tight mt-0.5">{{ ['沒有反應', '異常伸展', '疼痛刺激肢體屈曲', '疼痛刺激肢體僵直', '定位疼痛刺激', '聽從指示'][val-1] }}</span>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+
+                      <button @click="checkAnswer" class="mt-2 w-full py-3 bg-slate-800 dark:bg-blue-600 text-white rounded-xl font-black text-base md:text-lg shadow-md hover:bg-slate-700 dark:hover:bg-blue-700 transition-all active:scale-[0.98] border-2 border-slate-600 dark:border-blue-400 shrink-0">
+                        <i class="fa-solid fa-paper-plane mr-2"></i> 提交評估結果
+                      </button>
+                    </div>
+
+                    <div v-else key="result" class="flex flex-col justify-between h-full">
+                      <div class="bg-slate-50 dark:bg-slate-800/80 p-4 md:p-5 rounded-xl border-2 h-full flex flex-col" :class="isCorrect ? 'border-green-400 dark:border-green-600' : 'border-red-400 dark:border-red-600'">
+                        
+                        <div class="flex items-center gap-3 mb-3 border-b border-slate-200 dark:border-slate-700 pb-3 shrink-0">
+                          <i :class="['fa-solid text-3xl', isCorrect ? 'fa-circle-check text-green-500' : 'fa-triangle-exclamation text-red-500']"></i>
+                          <div>
+                            <h4 :class="['font-black text-lg md:text-xl', isCorrect ? 'text-green-700 dark:text-green-400' : 'text-red-700 dark:text-red-400']">{{ isCorrect ? '判斷完全正確！' : '判斷有誤，請看解析' }}</h4>
+                            <p class="text-xs font-bold text-slate-500 mt-0.5">正確總分：{{currentCase.answer.e + currentCase.answer.v + currentCase.answer.m}} 分</p>
+                          </div>
+                        </div>
+
+                        <div class="grid grid-cols-3 gap-2 mb-3 shrink-0">
+                          <div class="text-center p-2 rounded-xl border" :class="userE === currentCase.answer.e ? 'bg-green-100/50 border-green-200 dark:bg-green-900/30' : 'bg-red-100/50 border-red-200 dark:bg-red-900/30'">
+                            <p class="text-[10px] font-bold text-slate-500 mb-0.5">E (睜眼反應)</p>
+                            <p class="font-black text-base md:text-lg" :class="userE === currentCase.answer.e ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'">{{userE}} <span class="text-[10px] font-normal text-slate-400">/ 正解 {{currentCase.answer.e}}</span></p>
+                          </div>
+                          <div class="text-center p-2 rounded-xl border" :class="userV === currentCase.answer.v ? 'bg-green-100/50 border-green-200 dark:bg-green-900/30' : 'bg-red-100/50 border-red-200 dark:bg-red-900/30'">
+                            <p class="text-[10px] font-bold text-slate-500 mb-0.5">V (語言反應)</p>
+                            <p class="font-black text-base md:text-lg" :class="userV === currentCase.answer.v ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'">{{userV}} <span class="text-[10px] font-normal text-slate-400">/ 正解 {{currentCase.answer.v}}</span></p>
+                          </div>
+                          <div class="text-center p-2 rounded-xl border" :class="userM === currentCase.answer.m ? 'bg-green-100/50 border-green-200 dark:bg-green-900/30' : 'bg-red-100/50 border-red-200 dark:bg-red-900/30'">
+                            <p class="text-[10px] font-bold text-slate-500 mb-0.5">M (運動反應)</p>
+                            <p class="font-black text-base md:text-lg" :class="userM === currentCase.answer.m ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'">{{userM}} <span class="text-[10px] font-normal text-slate-400">/ 正解 {{currentCase.answer.m}}</span></p>
+                          </div>
+                        </div>
+
+                        <div class="flex-1 overflow-y-auto no-scrollbar bg-blue-50/50 dark:bg-slate-900/50 p-3 md:p-4 rounded-xl border border-blue-100 dark:border-slate-700">
+                          <span class="font-black text-medical-blue dark:text-blue-400 text-[11px] md:text-xs tracking-widest block mb-1.5"><i class="fa-solid fa-chalkboard-user mr-1.5"></i>解析</span>
+                          <p class="text-slate-700 dark:text-slate-300 text-xs md:text-sm leading-relaxed font-bold">{{ currentCase.explanation }}</p>
+                        </div>
+                      </div>
+
+                      <button @click="nextCase" class="mt-3 w-full py-3 bg-medical-blue dark:bg-blue-600 text-white rounded-xl font-black text-base md:text-lg shadow-md hover:bg-blue-800 dark:hover:bg-blue-700 transition-all active:scale-95 border-2 border-blue-400 shrink-0">
+                        前往下一題 <i class="fa-solid fa-arrow-right ml-2"></i>
+                      </button>
+                    </div>
+
+                  </transition>
                 </div>
-              </transition>
-              
+              </div>
             </div>
           </div>
         </div>

@@ -10,8 +10,11 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script src="https://cdn.tailwindcss.com"></script>
   
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  
   <script>
     tailwind.config = {
+      darkMode: 'class',
       theme: { extend: { colors: { medical: { blue: '#1e3a8a', red: '#dc2626', light: '#f8fafc' } } } }
     }
   </script>
@@ -20,60 +23,118 @@
     .fade-slide-enter-active, .fade-slide-leave-active { transition: opacity 0.3s ease, transform 0.3s ease; }
     .fade-slide-enter-from { opacity: 0; transform: translateY(10px); }
     .fade-slide-leave-to { opacity: 0; transform: translateY(-10px); }
-    .prose {max-width: none; color: #334155; font-size: 1.1rem; }
-    .prose h1 {font-size: 2.5rem; font-weight: 900; color: #1e3a8a; border-bottom: 2px solid #e2e8f0; padding-bottom: 0.5rem; margin-top: 2rem; }
-    .prose h2 { font-size: 2rem; font-weight: 800; color: #1e3a8a; display: flex; align-items: center; gap: 0.5rem; margin-top: 2.5rem; margin-bottom: 1.25rem; }
-    .prose h2::before { content: ""; display: inline-block; width: 4px; height: 1.5rem; background-color: #dc2626; border-radius: 2px; }
-    .prose h3 { font-size: 1.5rem; line-height: 2;}
-    .prose h4 { font-size: 1rem; line-height: 2;}
-    .prose h5 { font-size: 0.8rem; line-height: 2;}
-    .prose h5 a { line-height: 2; margin-bottom: 0.5rem; color: #1e3a8a; }
-    .prose p { line-height: 2; margin-bottom: 0.4rem; }
-    .prose a { line-height: 2; margin-bottom: 0.5rem; color: #dc2626; }
-    .prose ul, .prose ol { background-color: #f8fafc; padding: 1rem 1.5rem 0.5rem 1.5rem; border-radius: 1rem; border: 1px solid #e2e8f0; }
-    .prose li { margin-bottom: 0.5rem; }
-    .prose li strong { color: #ca2525; }
-    .prose blockquote { font-style: normal; border-left: 5px solid #1e3a8a; background: #eff6ff; padding: 1.5rem; border-radius: 0 1rem 1rem 0; color: #1e40af; margin: 2rem 0; position: relative; }
-    .prose blockquote p::before { content: ""; display: block; font-weight: 900; font-size: 0.875rem; margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.1em; }
-    .prose strong { color: #0f172a; background: linear-gradient(180deg,transparent 60%, #dbeafe 0); }
-    .prose img { border-radius: 1rem; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); margin: 2rem auto; border: 1px solid #e2e8f0; }
+
+    .prose { 
+      max-width: 1000px; 
+      margin: 0 auto; 
+      color: #334155; 
+      font-size: 1.125rem; 
+      line-height: 2; 
+      letter-spacing: 0.025em; 
+    }
+    .prose h1, .prose h2, .prose h3, .prose h4 { color: #1e3a8a; font-weight: 900; margin-top: 2.5em; margin-bottom: 1em; line-height: 1.4; letter-spacing: 0.05em; }
+    .prose h1 { font-size: 2.25rem; border-bottom: 3px solid #f1f5f9; padding-bottom: 0.75rem; margin-top: 1rem; }
+    .prose h2 { font-size: 1.875rem; border-left: 6px solid #dc2626; padding-left: 1rem; border-radius: 2px; }
+    .prose h3 { font-size: 1.5rem; display: flex; align-items: center; gap: 0.5rem; }
+    .prose h3::before { content: "❖"; color: #3b82f6; font-size: 1.2rem; }
+    .prose p { margin-bottom: 1.75rem; }
+    .prose a { color: #2563eb; text-decoration: underline; text-underline-offset: 4px; transition: all 0.2s ease; font-weight: 600; }
+    .prose a:hover { color: #dc2626; background-color: #fee2e2; padding: 0.1em 0.3em; border-radius: 0.25rem; text-decoration: none; }
+    .prose ul, .prose ol { background-color: #f8fafc; padding: 1.5rem 1.5rem 1.5rem 3rem; border-radius: 1rem; border: 1px solid #e2e8f0; margin-bottom: 2rem; box-shadow: inset 0 2px 4px 0 rgba(0,0,0,0.02); }
+    .prose li { margin-bottom: 0.75rem; padding-left: 0.25rem; }
+    .prose li::marker { color: #dc2626; font-weight: bold; }
+    .prose blockquote { border-left: 5px solid #3b82f6; background: linear-gradient(to right, #eff6ff, #ffffff); padding: 1.5rem 2rem; border-radius: 0 1rem 1rem 0; color: #1e40af; font-style: normal; margin: 2.5rem 0; position: relative; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
+    .prose blockquote::before { content: "❝"; font-size: 4rem; color: #dbeafe; position: absolute; top: -1rem; left: 0.5rem; font-family: serif; opacity: 0.7; z-index: 0; }
+    .prose blockquote p { position: relative; z-index: 1; margin-bottom: 0; font-weight: 500; }
+    .prose strong { color: #0f172a; font-weight: 800; background: linear-gradient(180deg, transparent 60%, #bfdbfe 0); padding: 0 0.2em; border-radius: 0.1rem; }
+    .prose code { background-color: #f1f5f9; color: #ef4444; padding: 0.2em 0.5em; border-radius: 0.375rem; font-size: 0.9em; font-family: ui-monospace, SFMono-Regular, monospace; font-weight: 600; border: 1px solid #e2e8f0; }
+    .prose img { border-radius: 1rem; box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.15); margin: 3rem auto; border: 1px solid #e2e8f0; max-width: 100%; display: block; }
+    .prose hr { border: 0; height: 2px; background-image: linear-gradient(to right, transparent, #cbd5e1, transparent); margin: 3.5rem 0; }
+    .prose table { border-collapse: collapse; margin: 2.5rem 0; font-size: 1rem; overflow: hidden; border-radius: 0.5rem; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
+    .prose th, .prose td { border: 1px solid #e2e8f0; padding: 1rem; text-align: left; }
+    .prose th { background-color: #f8fafc; font-weight: 800; color: #0f172a; border-bottom: 2px solid #cbd5e1; }
+    .prose tr:nth-child(even) { background-color: #f8fafc; }
+
+    .dark .prose { color: #cbd5e1; }
+    .dark .prose h1, .dark .prose h2, .dark .prose h3, .dark .prose h4 { color: #93c5fd; }
+    .dark .prose h1 { border-color: #334155; }
+    .dark .prose h2 { border-left-color: #ef4444; }
+    .dark .prose h3::before { color: #60a5fa; }
+    .dark .prose a { color: #60a5fa; }
+    .dark .prose a:hover { color: #f87171; background-color: #7f1d1d; }
+    .dark .prose ul, .dark .prose ol { background-color: #1e293b; border-color: #334155; box-shadow: none; }
+    .dark .prose li::marker { color: #f87171; }
+    .dark .prose blockquote { background: linear-gradient(to right, #1e3a8a, #0f172a); color: #dbeafe; border-left-color: #60a5fa; box-shadow: none; }
+    .dark .prose blockquote::before { color: #1e40af; }
+    .dark .prose strong { color: #f8fafc; background: linear-gradient(180deg, transparent 60%, #1e3a8a 0); }
+    .dark .prose code { background-color: #1e293b; color: #fca5a5; border-color: #334155; }
+    .dark .prose hr { background-image: linear-gradient(to right, transparent, #475569, transparent); }
+    .dark .prose table { box-shadow: none; }
+    .dark .prose th, .dark .prose td { border-color: #334155; }
+    .dark .prose th { background-color: #0f172a; color: #f8fafc; border-bottom-color: #475569; }
+    .dark .prose tr:nth-child(even) { background-color: #1e293b; }
     .no-scrollbar::-webkit-scrollbar { display: none; }
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
   </style>
 </head>
-<body class="bg-medical-light text-slate-800 font-sans antialiased min-h-screen flex flex-col">
+<body class="bg-medical-light dark:bg-slate-900 text-slate-800 dark:text-slate-200 font-sans antialiased h-[100dvh] overflow-hidden flex flex-col transition-colors duration-300 relative">
 
-  <div id="app" class="max-w-[1400px] mx-auto px-4 md:px-8 py-8 flex-grow w-full flex flex-col">
+  <div class="h-1.5 w-full bg-gradient-to-r from-medical-blue via-medical-light to-medical-red shrink-0 z-[70]"></div>
+
+  <div id="app" class="max-w-[1400px] mx-auto px-3 md:px-8 pt-4 md:pt-6 pb-4 flex-grow w-full flex flex-col min-h-0 relative">
     
-    <div class="h-1.5 w-full bg-gradient-to-r from-medical-blue via-medical-light to-medical-red rounded-t-lg mb-6 shadow-sm shrink-0"></div>
+    <transition name="fade-slide">
+      <div v-if="toast.visible" :class="['fixed top-24 md:top-28 left-1/2 transform -translate-x-1/2 z-[100] px-5 py-3 rounded-full shadow-2xl font-bold flex items-center gap-3 border transition-all duration-300', toast.type === 'error' ? 'bg-red-50 dark:bg-red-900/95 text-red-600 dark:text-red-300 border-red-200 dark:border-red-700' : 'bg-green-50 dark:bg-green-900/95 text-green-600 dark:text-green-300 border-green-200 dark:border-green-700']">
+        <i :class="['fa-solid', toast.type === 'error' ? 'fa-circle-exclamation' : 'fa-circle-check', 'text-lg']"></i>
+        <span class="text-sm md:text-base whitespace-nowrap">{{ toast.message }}</span>
+      </div>
+    </transition>
 
-    <header class="bg-white rounded-2xl shadow-sm border border-slate-100 p-5 md:p-6 mb-8 flex flex-col md:flex-row justify-between items-center gap-4 shrink-0">
-      <div class="flex items-center gap-3 text-medical-blue">
-        <i class="fa-solid fa-star-of-life text-3xl md:text-4xl"></i>
+    <header class="shrink-0 bg-white/95 dark:bg-slate-800/95 backdrop-blur-md shadow-sm border border-slate-200 dark:border-slate-700 rounded-2xl md:rounded-3xl px-4 py-3 md:px-6 md:py-4 mb-4 md:mb-6 transition-colors flex flex-wrap md:flex-nowrap items-center justify-between gap-y-3 gap-x-4 z-50">
+      
+      <div class="flex items-center gap-2 md:gap-3 text-medical-blue dark:text-blue-400 shrink-0 order-1">
+        <i class="fa-solid fa-star-of-life text-2xl md:text-3xl"></i>
         <div>
-          <h1 class="text-xl md:text-2xl font-black tracking-wider">EMT-1</h1>
-          <p class="text-[10px] md:text-xs text-slate-400 font-mono tracking-widest uppercase">Training System</p>
+          <h1 class="text-lg md:text-2xl font-black tracking-wider leading-none">EMT-1</h1>
+          <p class="text-[9px] md:text-xs text-slate-400 font-mono tracking-widest uppercase mt-0.5">Training System</p>
         </div>
       </div>
       
-        <nav class="flex gap-2 overflow-x-auto w-full md:w-auto no-scrollbar pb-2 md:pb-0">
-          <a href="#Home" :class="navClass('Home')"><i class="fa-solid fa-house mr-1 md:mr-2"></i>首頁</a>
-          <a href="#Material" :class="navClass('Material')"><i class="fa-solid fa-book-medical mr-1 md:mr-2"></i>教材</a>
-          <a href="#Mcq" :class="navClass('Mcq')"><i class="fa-solid fa-file-signature mr-1 md:mr-2"></i>學科測驗</a>
-          <a href="#Gcs" :class="navClass('Gcs')"><i class="fa-solid fa-brain mr-1 md:mr-2"></i>GCS練習</a>
-          <!-- <a href="#Scenario" :class="navClass('Scenario')"><i class="fa-solid fa-truck-medical mr-1 md:mr-2"></i>模擬</a> -->
-        </nav>
+      <div class="flex items-center gap-2 md:gap-4 shrink-0 order-2 md:order-3 ml-auto md:ml-0">
+        <button @click="toggleTheme" class="w-8 h-8 md:w-10 md:h-10 flex items-center justify-center rounded-full bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors">
+          <i class="fa-solid text-sm md:text-lg" :class="isDark ? 'fa-sun text-yellow-400' : 'fa-moon text-slate-500'"></i>
+        </button>
+
+        <button v-if="!user" @click="login" class="px-3 py-1.5 md:px-5 md:py-2.5 rounded-full text-xs md:text-sm font-bold transition-all duration-300 border flex items-center whitespace-nowrap bg-medical-blue dark:bg-blue-600 text-white border-medical-blue dark:border-blue-600 shadow-sm hover:bg-blue-800 dark:hover:bg-blue-700 active:scale-95">
+          <i class="fa-brands fa-google mr-1.5 md:mr-2"></i> 登入
+        </button>
+
+        <div v-else class="flex items-center gap-2 md:gap-3 bg-slate-50 dark:bg-slate-700 px-2 py-1 md:px-3 md:py-1.5 rounded-full border border-slate-200 dark:border-slate-600 shadow-sm transition-colors">
+          <img :src="user.picture" class="w-6 h-6 md:w-8 md:h-8 rounded-full border border-slate-300 dark:border-slate-500">
+          <span class="text-xs md:text-sm font-bold text-slate-700 dark:text-slate-200 truncate max-w-[80px] md:max-w-[150px]">{{ user.name }}</span>
+          <button @click="logout" class="text-[10px] md:text-xs bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 px-2 py-1 md:px-3 md:py-1.5 rounded-lg font-bold hover:bg-red-200 dark:hover:bg-red-900/50 transition-colors shrink-0">
+            登出
+          </button>
+        </div>
+      </div>
+
+      <nav class="flex gap-2 overflow-x-auto no-scrollbar w-full md:w-auto order-3 md:order-2 pb-1 md:pb-0">
+        <a href="#Home" :class="navClass('Home')"><i class="fa-solid fa-house mr-1 md:mr-2"></i>首頁</a>
+        <a href="#Material" :class="navClass('Material')"><i class="fa-solid fa-book-medical mr-1 md:mr-2"></i>教材</a>
+        <a href="#Mcq" :class="navClass('Mcq')"><i class="fa-solid fa-file-signature mr-1 md:mr-2"></i>學科測驗</a>
+        <a href="#Gcs" :class="navClass('Gcs')"><i class="fa-solid fa-brain mr-1 md:mr-2"></i>GCS練習</a>
+        <!-- <a href="#Scenario" :class="navClass('Scenario')"><i class="fa-solid fa-truck-medical mr-1 md:mr-2"></i>情境模擬</a> -->
+      </nav>
     </header>
 
-    <main class="relative flex-grow flex flex-col">
+    <main class="relative flex-grow flex flex-col overflow-hidden min-h-0">
       <transition name="fade-slide" mode="out-in">
-        <component :is="currentView" :catalogs="catalogs" :route-param="routeParam"></component>
+        <component :is="currentView" :catalogs="catalogs" :route-param="routeParam" :user-history="userHistory" @update-history="handleHistoryUpdate" @show-toast="showToast"></component>
       </transition>
     </main>
-
   </div>
 
-  <footer class="text-center py-6 text-slate-400 text-sm mt-auto shrink-0 border-t border-slate-200 bg-white">
+  <footer class="text-center py-2 md:py-3 text-slate-400 text-xs md:text-sm mt-auto shrink-0 border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 transition-colors w-full z-50">
     <p>&copy; 2026 Haimu. All rights reserved.</p>
   </footer>
 
@@ -92,9 +153,16 @@
         return {
           currentView: 'Home',
           routeParam: null,
+          isDark: false,
+          user: null,
+          googleTokenClient: null,
+          userHistory: { materials: [], mcq: {}, gcs: {}, last_material: null },
+          toast: { visible: false, message: '', type: 'success' },
+          toastTimer: null,
           catalogs: {
             materials: [
-              { title: "第一章：緊急醫療救護相關法規", file: "ch01_law.md" }
+              { title: "第一章：緊急醫療救護相關法規", file: "ch01_law.md" },
+              { title: "第二章：人體基本解剖與生理學", file: "ch02_anp.md" }
             ],
             questions: [
               { title: "題組一：緊急醫療救護相關法規", file: "ch01_law.json" }
@@ -109,21 +177,94 @@
         }
       },
       mounted() {
+        localStorage.removeItem('emt_history');
+        
+        this.isDark = localStorage.getItem('theme_preference') === 'dark';
+        this.applyTheme();
+
         window.addEventListener('hashchange', this.onHashChange);
         this.onHashChange();
+
+        setTimeout(() => {
+          if (window.google) {
+            this.googleTokenClient = google.accounts.oauth2.initTokenClient({
+              client_id: "", 
+              scope: "",
+              callback: async (tokenResponse) => {
+                if (tokenResponse && tokenResponse.access_token) {
+                  this.fetchGoogleUserProfile(tokenResponse.access_token);
+                }
+              }
+            });
+          }
+        }, 500);
       },
       unmounted() {
         window.removeEventListener('hashchange', this.onHashChange);
       },
       methods: {
+        toggleTheme() {
+          this.isDark = !this.isDark;
+          localStorage.setItem('theme_preference', this.isDark ? 'dark' : 'light');
+          this.applyTheme();
+        },
+        applyTheme() {
+          if (this.isDark) document.documentElement.classList.add('dark');
+          else document.documentElement.classList.remove('dark');
+        },
+        showToast(payload) {
+          if (this.toastTimer) clearTimeout(this.toastTimer);
+          const msg = typeof payload === 'string' ? payload : payload.msg;
+          const type = payload.type || 'success';
+          this.toast = { visible: true, message: msg, type: type };
+          this.toastTimer = setTimeout(() => {
+            this.toast.visible = false;
+          }, 3000);
+        },
+        login() {
+          if (this.googleTokenClient) {
+            this.googleTokenClient.requestAccessToken();
+          } else {
+            this.showToast({ msg: "Google 登入系統尚未載入完成，請稍後再試。", type: "error" });
+          }
+        },
+        async fetchGoogleUserProfile(accessToken) {
+          try {
+            const res = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
+              headers: { Authorization: `Bearer ${accessToken}` }
+            });
+            const data = await res.json();
+            this.user = { name: data.name, email: data.email, picture: data.picture };
+            this.userHistory = { materials: [], mcq: {}, gcs: {}, last_material: null };
+            this.showToast({ msg: `歡迎回來，${this.user.name}！`, type: "success" });
+          } catch (error) {
+            this.showToast({ msg: "登入失敗，請稍後再試。", type: "error" });
+          }
+        },
+        logout() {
+          this.user = null;
+          this.userHistory = { materials: [], mcq: {}, gcs: {}, last_material: null };
+          this.showToast({ msg: "已成功登出。", type: "success" });
+        },
+        handleHistoryUpdate(payload) {
+          if (!this.user) {
+            this.showToast({ msg: "請先登入 Google 帳號以儲存學習進度！", type: "error" });
+            return;
+          }
+          if (payload.type === 'materials') {
+            if (!this.userHistory.materials.includes(payload.value)) this.userHistory.materials.push(payload.value);
+          } else if (payload.type === 'last_material') {
+            this.userHistory.last_material = payload.value;
+          } else if (payload.type === 'mcq' || payload.type === 'gcs') {
+            this.userHistory[payload.type][payload.key] = payload.value;
+          }
+        },
         onHashChange() {
           const fullHash = window.location.hash.replace('#', '');
           const parts = fullHash.split('/'); 
           const view = parts[0];
           const param = parts[1] || null;
-
           const validViews = ['Home', 'Material', 'Mcq', 'Gcs', 'Scenario'];
-          
           if (validViews.includes(view)) {
             this.currentView = view;
             this.routeParam = param;
@@ -132,16 +273,14 @@
             window.location.hash = 'Home';
           }
         },
-
         navClass(viewName) {
-          const base = 'px-4 py-2 md:px-5 md:py-2.5 rounded-full text-xs md:text-sm font-bold transition-all duration-300 border flex items-center whitespace-nowrap ';
-          
+          const base = 'px-3 py-1.5 md:px-5 md:py-2.5 rounded-full text-xs md:text-sm font-bold transition-all duration-300 border flex items-center whitespace-nowrap ';
           if (this.currentView === viewName) {
             return viewName === 'Scenario' 
-              ? base + 'bg-medical-red text-white border-medical-red shadow-md'
-              : base + 'bg-medical-blue text-white border-medical-blue shadow-md';
+              ? base + 'bg-medical-red dark:bg-red-600 text-white border-medical-red dark:border-red-600 shadow-md'
+              : base + 'bg-medical-blue dark:bg-blue-600 text-white border-medical-blue dark:border-blue-600 shadow-md';
           }
-          return base + 'text-slate-500 border-transparent hover:border-slate-300 hover:bg-slate-50';
+          return base + 'text-slate-500 dark:text-slate-400 border-transparent hover:border-slate-300 dark:hover:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-800';
         }
       }
     }).mount('#app');
