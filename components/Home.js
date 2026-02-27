@@ -114,10 +114,20 @@ export default {
               <i class="fa-solid fa-brain text-2xl md:text-3xl"></i>
             </div>
             <h3 class="font-black text-xl text-slate-800 dark:text-white mb-2 group-hover:text-teal-600 dark:group-hover:text-teal-400 transition-colors">GCS 訓練</h3>
-            <p class="text-sm text-slate-500 dark:text-slate-400 font-medium leading-relaxed mb-4">互動式昏迷指數評估練習，透過反應測試精準判斷 EVM 分數。</p>
+            <p class="text-sm text-slate-500 dark:text-slate-400 font-medium leading-relaxed mb-4">互動式昏迷指數評估練習，透過反應測試精準判斷。</p>
             <span class="text-xs font-bold text-teal-600 dark:text-teal-400 bg-teal-50 dark:bg-teal-900/30 px-3 py-1.5 rounded-lg">開始練習 <i class="fa-solid fa-arrow-right ml-1"></i></span>
           </a>
 
+          <a href="" class="block p-6 md:p-8 rounded-3xl border-2 border-slate-100 dark:border-slate-700 bg-white dark:bg-slate-800 hover:border-red-300 dark:hover:border-red-500 hover:shadow-2xl hover:-translate-y-1 transition-all group overflow-hidden relative">
+            <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-red-50 dark:from-red-900/20 to-transparent rounded-bl-full -z-10 group-hover:scale-110 transition-transform"></div>
+            <div class="w-14 h-14 bg-red-100 dark:bg-red-900/50 text-red-600 dark:text-red-400 rounded-2xl flex items-center justify-center mb-5 group-hover:bg-red-600 group-hover:text-white transition-colors shadow-sm">
+              <i class="fa-solid fa-truck-medical text-2xl md:text-3xl"></i>
+            </div>
+            <h3 class="font-black text-xl text-slate-800 dark:text-white mb-2 group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors">情境模擬</h3>
+            <p class="text-sm text-slate-500 dark:text-slate-400 font-medium leading-relaxed mb-4">本功能目前測試中，尚未製作完成，將陸續開放。</p>
+            <span class="text-xs font-bold text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/30 px-3 py-1.5 rounded-lg">即將上線 <i class="fa-solid fa-arrow-right ml-1"></i></span>
+          </a>
+          
           <!-- <a href="#Scenario" class="block p-6 md:p-8 rounded-3xl border-2 border-slate-100 dark:border-slate-700 bg-white dark:bg-slate-800 hover:border-red-300 dark:hover:border-red-500 hover:shadow-2xl hover:-translate-y-1 transition-all group overflow-hidden relative">
             <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-red-50 dark:from-red-900/20 to-transparent rounded-bl-full -z-10 group-hover:scale-110 transition-transform"></div>
             <div class="w-14 h-14 bg-red-100 dark:bg-red-900/50 text-red-600 dark:text-red-400 rounded-2xl flex items-center justify-center mb-5 group-hover:bg-red-600 group-hover:text-white transition-colors shadow-sm">
