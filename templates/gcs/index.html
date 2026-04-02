@@ -18,9 +18,9 @@
     </div>
     
     <div ref="gcsContainer" class="flex-grow overflow-y-auto custom-scrollbar p-4 md:p-6 w-full h-full">
-      <div class="flex flex-col xl:grid xl:grid-cols-12 gap-4 w-full h-full">
+      <div class="flex flex-col xl:grid xl:grid-cols-12 gap-4 w-full min-h-full">
         
-        <div class="xl:col-span-5 flex flex-col gap-3 w-full h-full shrink-0">
+        <div class="xl:col-span-5 flex flex-col gap-3 w-full shrink-0">
           
           <div class="p-3 md:p-4 bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-100 dark:border-slate-700 shrink-0 border-l-4 border-l-emerald-500">
             <h3 class="font-black text-xs md:text-sm mb-1 uppercase flex items-center gap-1.5 text-emerald-600 dark:text-emerald-400 tracking-widest"><i class="fa-solid fa-clipboard-user"></i> 情境宣示</h3>
@@ -59,8 +59,8 @@
 
         </div>
 
-        <div class="xl:col-span-7 flex flex-col w-full h-full relative">
-          <div class="bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 shadow-sm rounded-xl p-3 md:p-4 w-full flex flex-col flex-1 transition-colors min-h-0">
+        <div class="xl:col-span-7 flex flex-col w-full relative">
+          <div class="bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 shadow-sm rounded-xl p-3 md:p-4 w-full flex flex-col flex-1 transition-colors">
             
             <div class="flex flex-wrap justify-between items-center gap-2 mb-3 pb-2 border-b border-slate-100 dark:border-slate-700 shrink-0">
               <div class="flex items-center gap-2">
@@ -80,7 +80,7 @@
               </div>
             </div>
 
-            <div class="flex-1 relative flex flex-col min-h-0 overflow-y-auto custom-scrollbar">
+            <div class="flex-1 relative flex flex-col">
               <transition name="fade-slide" mode="out-in">
                 
                 <div v-if="!showResult" key="scoring" class="flex flex-col justify-between flex-1 gap-2">
@@ -88,36 +88,36 @@
                     
                     <div class="bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 p-2 md:p-3 rounded-xl shadow-sm">
                       <p class="font-black text-slate-700 dark:text-slate-200 mb-2 text-xs md:text-sm tracking-wide"><span class="bg-blue-100 text-medical-blue px-1.5 py-0.5 rounded text-xs mr-1.5 shadow-sm">E</span>睜眼反應</p>
-                      <div class="grid grid-cols-2 sm:grid-cols-4 gap-1.5 md:gap-2">
+                      <div class="grid grid-cols-4 sm:grid-cols-4 gap-1.5 md:gap-2">
                         <button v-for="val in [4,3,2,1]" :key="'e'+val" @click="userE = val" 
-                          :class="['h-14 md:h-16 border-2 bg-white dark:bg-slate-800 transition-all shadow-sm transform active:scale-95 flex flex-col items-center justify-center rounded-lg gap-1', 
+                          :class="['h-12 md:h-16 border-2 bg-white dark:bg-slate-800 transition-all shadow-sm transform active:scale-95 flex flex-col items-center justify-center rounded-lg gap-0.5 md:gap-1', 
                                    userE === val ? 'border-medical-blue bg-blue-50 text-medical-blue shadow-sm scale-[1.02]' : 'border-slate-200 text-slate-600 hover:border-medical-blue hover:shadow-sm']">
-                          <span class="text-xl md:text-2xl font-black leading-none mt-1">{{ val }}</span>
-                          <span :class="['text-[11px] md:text-xs font-bold text-center leading-none transition-opacity duration-200', showHelperText ? 'opacity-100' : 'opacity-0']">{{ ['無反應', '痛睜眼', '喚睜眼', '主動睜眼'][val-1] }}</span>
+                          <span class="text-lg md:text-2xl font-black leading-none mt-1">{{ val }}</span>
+                          <span :class="['text-[10px] md:text-xs font-bold text-center leading-tight transition-opacity duration-200', showHelperText ? 'opacity-100' : 'opacity-0']">{{ ['無反應', '痛睜眼', '喚睜眼', '主動睜眼'][val-1] }}</span>
                         </button>
                       </div>
                     </div>
 
                     <div class="bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 p-2 md:p-3 rounded-xl shadow-sm">
                       <p class="font-black text-slate-700 dark:text-slate-200 mb-2 text-xs md:text-sm tracking-wide"><span class="bg-green-100 text-green-700 px-1.5 py-0.5 rounded text-xs mr-1.5 shadow-sm">V</span>最佳語言</p>
-                      <div class="grid grid-cols-2 sm:grid-cols-5 gap-1.5 md:gap-2">
+                      <div class="grid grid-cols-5 gap-1 md:gap-2">
                         <button v-for="val in [5,4,3,2,1]" :key="'v'+val" @click="userV = val" 
-                          :class="['h-14 md:h-16 border-2 bg-white dark:bg-slate-800 transition-all shadow-sm transform active:scale-95 flex flex-col items-center justify-center rounded-lg gap-1', 
+                          :class="['h-12 md:h-16 border-2 bg-white dark:bg-slate-800 transition-all shadow-sm transform active:scale-95 flex flex-col items-center justify-center rounded-lg', 
                                    userV === val ? 'border-green-500 bg-green-50 text-green-700 shadow-sm scale-[1.02]' : 'border-slate-200 text-slate-600 hover:border-green-500 hover:shadow-sm']">
-                          <span class="text-xl md:text-2xl font-black leading-none mt-1">{{ val }}</span>
-                          <span :class="['text-[11px] md:text-xs font-bold text-center leading-none transition-opacity duration-200 px-0.5', showHelperText ? 'opacity-100' : 'opacity-0']">{{ ['無反應', '僅發聲', '單詞', '答錯', '答對'][val-1] }}</span>
+                          <span class="text-base md:text-2xl font-black leading-none mt-0.5">{{ val }}</span>
+                          <span :class="['text-[9px] md:text-xs font-bold text-center leading-tight transition-opacity duration-200 px-0.5', showHelperText ? 'opacity-100' : 'opacity-0']">{{ ['無反應', '僅發聲', '單詞', '答錯', '答對'][val-1] }}</span>
                         </button>
                       </div>
                     </div>
 
                     <div class="bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 p-2 md:p-3 rounded-xl shadow-sm">
                       <p class="font-black text-slate-700 dark:text-slate-200 mb-2 text-xs md:text-sm tracking-wide"><span class="bg-orange-100 text-orange-700 px-1.5 py-0.5 rounded text-xs mr-1.5 shadow-sm">M</span>最佳運動</p>
-                      <div class="grid grid-cols-2 sm:grid-cols-6 gap-1.5 md:gap-2">
+                      <div class="grid grid-cols-3 sm:grid-cols-6 gap-1.5 md:gap-2">
                         <button v-for="val in [6,5,4,3,2,1]" :key="'m'+val" @click="userM = val" 
-                          :class="['h-14 md:h-16 border-2 bg-white dark:bg-slate-800 transition-all shadow-sm transform active:scale-95 flex flex-col items-center justify-center rounded-lg gap-1', 
+                          :class="['h-12 md:h-16 border-2 bg-white dark:bg-slate-800 transition-all shadow-sm transform active:scale-95 flex flex-col items-center justify-center rounded-lg gap-0.5 md:gap-1', 
                                    userM === val ? 'border-orange-500 bg-orange-50 text-orange-700 shadow-sm scale-[1.02]' : 'border-slate-200 text-slate-600 hover:border-orange-500 hover:shadow-sm']">
-                          <span class="text-xl md:text-2xl font-black leading-none mt-1">{{ val }}</span>
-                          <span :class="['text-[11px] md:text-xs font-bold text-center leading-none transition-opacity duration-200 px-0.5', showHelperText ? 'opacity-100' : 'opacity-0']">{{ ['無反應', '異常伸展', '痛屈曲', '痛僵直', '定位痛', '聽指示'][val-1] }}</span>
+                          <span class="text-lg md:text-2xl font-black leading-none mt-1">{{ val }}</span>
+                          <span :class="['text-[10px] md:text-xs font-bold text-center leading-tight transition-opacity duration-200 px-0.5', showHelperText ? 'opacity-100' : 'opacity-0']">{{ ['無反應', '異常伸展', '痛屈曲', '痛僵直', '定位痛', '聽指示'][val-1] }}</span>
                         </button>
                       </div>
                     </div>
@@ -154,7 +154,7 @@
                       </div>
                     </div>
 
-                    <div class="flex-1 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 p-3 rounded-lg shadow-inner overflow-y-auto">
+                    <div class="flex-1 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 p-3 rounded-lg shadow-inner">
                       <span class="font-black text-emerald-600 dark:text-emerald-400 text-xs tracking-widest block mb-1.5 flex items-center gap-1.5"><i class="fa-solid fa-chalkboard-user"></i> 詳細解析</span>
                       <p class="text-slate-800 dark:text-slate-200 text-sm md:text-base leading-snug font-black whitespace-pre-line">{{ currentCase.explanation }}</p>
                     </div>

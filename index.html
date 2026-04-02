@@ -33,7 +33,7 @@
 
   <div class="h-1.5 w-full ecg-scanner shrink-0 z-[70] fixed top-0 left-0"></div>
 
-  <div id="app" class="w-full h-full flex flex-col min-h-0 relative z-10 pt-1.5">
+  <div id="app" class="w-full h-full flex flex-col min-h-0 relative z-10 pt-1.5 pb-[65px] md:pb-0">
     
     <transition name="fade-slide">
       <div v-if="toast.visible" :class="['fixed top-24 md:top-28 left-1/2 transform -translate-x-1/2 z-[100] px-6 py-4 rounded-2xl shadow-2xl font-bold flex items-center gap-3 border-2 transition-all duration-300 backdrop-blur-md', toast.type === 'error' ? 'bg-red-50/95 dark:bg-red-900/95 text-red-600 dark:text-red-300 border-red-200 dark:border-red-700' : 'bg-green-50/95 dark:bg-green-900/95 text-green-600 dark:text-green-300 border-green-200 dark:border-green-700']">
@@ -78,13 +78,13 @@
       </div>
     </header>
 
-    <main class="w-full flex-grow overflow-hidden flex flex-col relative md:pb-0">
+    <main class="w-full flex-grow overflow-hidden flex flex-col relative">
       <transition name="fade-slide" mode="out-in">
         <component :is="currentView" :catalogs="catalogs" :route-param="routeParam" :user-history="userHistory" @update-history="handleHistoryUpdate" @show-toast="showToast"></component>
       </transition>
     </main>
 
-    <footer class="text-center py-3 text-slate-400 dark:text-slate-500 text-xs md:text-sm mt-auto shrink-0 bg-transparent w-full z-50 font-medium tracking-wide mb-16 md:mb-0">
+    <footer class="hidden md:block text-center py-3 text-slate-400 dark:text-slate-500 text-xs md:text-sm mt-auto shrink-0 bg-transparent w-full z-50 font-medium tracking-wide">
       <p><i class="fa-solid fa-heart-pulse text-medical-red dark:text-red-500 mr-1 animate-pulse"></i> &copy; 2026 Haimu. EMT-1 Training System.</p>
     </footer>
 

@@ -1,90 +1,90 @@
 <div class="w-full h-full flex justify-center min-h-0 overflow-hidden">
-  <div class="w-full h-full overflow-y-auto custom-scrollbar p-4 md:p-8 pb-12 relative flex flex-col gap-8 md:gap-10">
+  <div class="w-full h-full overflow-y-auto custom-scrollbar p-4 pb-8 md:p-8 relative flex flex-col gap-6 md:gap-10">
     
-    <div class="w-full bg-gradient-to-br from-medical-blue to-blue-900 rounded-3xl shadow-xl p-8 md:p-12 text-white relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-8">
-      <div class="relative z-10 max-w-2xl text-left">
-        <div class="flex items-center gap-3 mb-4">
-          <i class="fa-solid fa-heart-pulse text-3xl md:text-4xl text-red-400 animate-pulse"></i>
-          <span class="text-blue-200 font-mono tracking-widest text-sm md:text-base font-bold">EMT-1 TRAINING SYSTEM</span>
+    <div class="w-full bg-gradient-to-br from-medical-blue to-blue-900 rounded-2xl md:rounded-3xl shadow-xl p-6 md:p-12 text-white relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-6">
+      <div class="relative z-10 max-w-2xl text-left w-full">
+        <div class="flex items-center gap-2 md:gap-3 mb-3 md:mb-4">
+          <i class="fa-solid fa-heart-pulse text-2xl md:text-4xl text-red-400 animate-pulse"></i>
+          <span class="text-blue-200 font-mono tracking-widest text-xs md:text-base font-bold">EMT-1 TRAINING SYSTEM</span>
         </div>
-        <h2 class="text-3xl md:text-5xl font-black mb-6 tracking-tight leading-tight">掌握每一秒的<br class="md:hidden"><span class="text-yellow-400 drop-shadow-md">黃金救援</span></h2>
-        <p class="text-base md:text-lg text-blue-100 leading-relaxed font-medium">
+        <h2 class="text-2xl md:text-5xl font-black mb-4 md:mb-6 tracking-tight leading-snug md:leading-tight">掌握每一秒的<br class="md:hidden"><span class="text-yellow-400 drop-shadow-md">黃金救援</span></h2>
+        <p class="text-sm md:text-lg text-blue-100 leading-relaxed font-medium">
           專為初級救護技術員打造的沈浸式訓練平台。<br class="hidden md:block">學理基礎、單項練習、情境演練，助您自信應對所有突發狀況。
         </p>
       </div>
-      <i class="fa-solid fa-truck-medical text-8xl md:text-[12rem] opacity-10 absolute right-4 -bottom-4 md:right-10 md:-bottom-10 transform -rotate-12 z-0 pointer-events-none"></i>
+      <i class="fa-solid fa-truck-medical text-6xl md:text-[12rem] opacity-10 absolute right-2 -bottom-2 md:right-10 md:-bottom-10 transform -rotate-12 z-0 pointer-events-none"></i>
     </div>
 
     <div v-if="stats.lastViewedFile" @click="continueReading" class="w-full bg-gradient-to-r from-medical-blue to-blue-500 rounded-2xl p-1 cursor-pointer hover:shadow-lg transition-all transform hover:-translate-y-1 group active:scale-[0.99]">
-      <div class="bg-white dark:bg-slate-800 rounded-xl px-6 py-4 md:px-8 md:py-5 flex items-center justify-between gap-4">
-        <div class="flex items-center gap-4 md:gap-6">
-          <div class="w-12 h-12 md:w-14 md:h-14 rounded-full bg-blue-50 dark:bg-slate-700 flex items-center justify-center shrink-0 group-hover:bg-medical-blue group-hover:text-white transition-colors text-medical-blue dark:text-blue-400 text-xl md:text-2xl">
+      <div class="bg-white dark:bg-slate-800 rounded-xl px-4 py-4 md:px-8 md:py-5 flex items-center justify-between gap-4">
+        <div class="flex items-center gap-3 md:gap-6">
+          <div class="w-10 h-10 md:w-14 md:h-14 rounded-full bg-blue-50 dark:bg-slate-700 flex items-center justify-center shrink-0 group-hover:bg-medical-blue group-hover:text-white transition-colors text-medical-blue dark:text-blue-400 text-lg md:text-2xl">
             <i class="fa-solid fa-clock-rotate-left"></i>
           </div>
           <div>
-            <p class="text-xs md:text-sm font-bold text-slate-500 dark:text-slate-400 tracking-widest uppercase mb-1">接續上次學習</p>
-            <p class="text-lg md:text-xl font-black text-slate-800 dark:text-slate-100 line-clamp-1">{{ stats.lastViewedTitle }}</p>
+            <p class="text-[10px] md:text-sm font-bold text-slate-500 dark:text-slate-400 tracking-widest uppercase mb-0.5 md:mb-1">接續上次學習</p>
+            <p class="text-base md:text-xl font-black text-slate-800 dark:text-slate-100 line-clamp-1">{{ stats.lastViewedTitle }}</p>
           </div>
         </div>
-        <div class="shrink-0 flex items-center justify-center text-slate-400 group-hover:text-medical-blue dark:group-hover:text-blue-400 transition-colors text-2xl">
+        <div class="shrink-0 flex items-center justify-center text-slate-400 group-hover:text-medical-blue dark:group-hover:text-blue-400 transition-colors text-xl md:text-2xl">
           <i class="fa-solid fa-arrow-right"></i>
         </div>
       </div>
     </div>
 
     <div class="w-full">
-      <h3 class="text-lg md:text-xl font-black text-slate-800 dark:text-white mb-4 flex items-center gap-2 border-l-4 border-medical-blue pl-3">
+      <h3 class="text-base md:text-xl font-black text-slate-800 dark:text-white mb-3 md:mb-4 flex items-center gap-2 border-l-4 border-medical-blue pl-3">
         <i class="fa-solid fa-chart-pie text-slate-400"></i> 學習儀表板
       </h3>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
-        <div class="bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-2xl p-6 flex items-center gap-5 shadow-sm hover:border-blue-300 transition-colors">
-          <div class="w-14 h-14 rounded-full bg-blue-50 dark:bg-blue-900/30 text-medical-blue dark:text-blue-400 flex items-center justify-center text-2xl shrink-0"><i class="fa-solid fa-book-open"></i></div>
+      <div class="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-6">
+        <div class="bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-2xl p-4 md:p-6 flex flex-col md:flex-row items-start md:items-center gap-3 md:gap-5 shadow-sm hover:border-blue-300 transition-colors">
+          <div class="w-10 h-10 md:w-14 md:h-14 rounded-full bg-blue-50 dark:bg-blue-900/30 text-medical-blue dark:text-blue-400 flex items-center justify-center text-lg md:text-2xl shrink-0"><i class="fa-solid fa-book-open"></i></div>
           <div>
-            <p class="text-sm font-bold text-slate-500 dark:text-slate-400">已完讀教材</p>
-            <p class="text-3xl font-black text-slate-800 dark:text-slate-100">{{ stats.readCount }} <span class="text-base font-medium text-slate-400 ml-1">章</span></p>
+            <p class="text-xs md:text-sm font-bold text-slate-500 dark:text-slate-400">已完讀教材</p>
+            <p class="text-2xl md:text-3xl font-black text-slate-800 dark:text-slate-100">{{ stats.readCount }} <span class="text-xs md:text-base font-medium text-slate-400 ml-1">章</span></p>
           </div>
         </div>
-        <div class="bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-2xl p-6 flex items-center gap-5 shadow-sm hover:border-red-300 transition-colors">
-          <div class="w-14 h-14 rounded-full bg-red-50 dark:bg-red-900/30 text-medical-red dark:text-red-400 flex items-center justify-center text-2xl shrink-0"><i class="fa-solid fa-file-signature"></i></div>
+        <div class="bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-2xl p-4 md:p-6 flex flex-col md:flex-row items-start md:items-center gap-3 md:gap-5 shadow-sm hover:border-red-300 transition-colors">
+          <div class="w-10 h-10 md:w-14 md:h-14 rounded-full bg-red-50 dark:bg-red-900/30 text-medical-red dark:text-red-400 flex items-center justify-center text-lg md:text-2xl shrink-0"><i class="fa-solid fa-file-signature"></i></div>
           <div>
-            <p class="text-sm font-bold text-slate-500 dark:text-slate-400">學科最高分</p>
-            <p class="text-3xl font-black text-slate-800 dark:text-slate-100" :class="stats.bestMcq >= 80 ? 'text-green-600 dark:text-green-400' : ''">{{ stats.bestMcq }} <span class="text-base font-medium text-slate-400 ml-1">分</span></p>
+            <p class="text-xs md:text-sm font-bold text-slate-500 dark:text-slate-400">學科最高分</p>
+            <p class="text-2xl md:text-3xl font-black text-slate-800 dark:text-slate-100" :class="stats.bestMcq >= 80 ? 'text-green-600 dark:text-green-400' : ''">{{ stats.bestMcq }} <span class="text-xs md:text-base font-medium text-slate-400 ml-1">分</span></p>
           </div>
         </div>
-        <div class="bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-2xl p-6 flex items-center gap-5 shadow-sm hover:border-emerald-300 transition-colors">
-          <div class="w-14 h-14 rounded-full bg-emerald-50 dark:bg-emerald-900/30 text-emerald-500 dark:text-emerald-400 flex items-center justify-center text-2xl shrink-0"><i class="fa-solid fa-brain"></i></div>
+        <div class="bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-2xl p-4 md:p-6 flex flex-col md:flex-row items-start md:items-center gap-3 md:gap-5 shadow-sm hover:border-emerald-300 transition-colors col-span-2 md:col-span-1">
+          <div class="w-10 h-10 md:w-14 md:h-14 rounded-full bg-emerald-50 dark:bg-emerald-900/30 text-emerald-500 dark:text-emerald-400 flex items-center justify-center text-lg md:text-2xl shrink-0"><i class="fa-solid fa-brain"></i></div>
           <div>
-            <p class="text-sm font-bold text-slate-500 dark:text-slate-400">GCS 最高分</p>
-            <p class="text-3xl font-black text-slate-800 dark:text-slate-100" :class="stats.bestGcs >= 100 ? 'text-green-600 dark:text-green-400' : ''">{{ stats.bestGcs }} <span class="text-base font-medium text-slate-400 ml-1">分</span></p>
+            <p class="text-xs md:text-sm font-bold text-slate-500 dark:text-slate-400">GCS 最高分</p>
+            <p class="text-2xl md:text-3xl font-black text-slate-800 dark:text-slate-100" :class="stats.bestGcs >= 100 ? 'text-green-600 dark:text-green-400' : ''">{{ stats.bestGcs }} <span class="text-xs md:text-base font-medium text-slate-400 ml-1">分</span></p>
           </div>
         </div>
       </div>
     </div>
 
     <div class="w-full">
-      <h3 class="text-lg md:text-xl font-black text-slate-800 dark:text-white mb-4 flex items-center gap-2 border-l-4 border-medical-blue pl-3">
+      <h3 class="text-base md:text-xl font-black text-slate-800 dark:text-white mb-3 md:mb-4 flex items-center gap-2 border-l-4 border-medical-blue pl-3">
         <i class="fa-solid fa-layer-group text-slate-400"></i> 訓練模組
       </h3>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-        <button @click="$root.navigate('Courses')" class="bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-2xl p-6 text-left hover:border-medical-blue dark:hover:border-blue-500 hover:shadow-lg transition-all transform hover:-translate-y-1 group">
-          <i class="fa-solid fa-book-medical text-4xl text-slate-300 dark:text-slate-600 group-hover:text-medical-blue dark:group-hover:text-blue-400 mb-5 block transition-colors"></i>
-          <h4 class="font-black text-xl text-slate-800 dark:text-slate-100 mb-2">教材閱讀</h4>
-          <p class="text-sm text-slate-500 dark:text-slate-400 font-medium leading-relaxed">深入淺出的急救學理知識與法規條文，奠定扎實基礎。</p>
+        <button @click="$root.navigate('Courses')" class="bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-2xl p-5 md:p-6 text-left hover:border-medical-blue dark:hover:border-blue-500 hover:shadow-lg transition-all transform hover:-translate-y-1 group">
+          <i class="fa-solid fa-book-medical text-3xl md:text-4xl text-slate-300 dark:text-slate-600 group-hover:text-medical-blue dark:group-hover:text-blue-400 mb-3 md:mb-5 block transition-colors"></i>
+          <h4 class="font-black text-lg md:text-xl text-slate-800 dark:text-slate-100 mb-1 md:mb-2">教材閱讀</h4>
+          <p class="text-xs md:text-sm text-slate-500 dark:text-slate-400 font-medium leading-relaxed">深入淺出的急救學理知識與法規條文，奠定扎實基礎。</p>
         </button>
-        <button @click="$root.navigate('Mcq')" class="bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-2xl p-6 text-left hover:border-medical-red dark:hover:border-red-500 hover:shadow-lg transition-all transform hover:-translate-y-1 group">
-          <i class="fa-solid fa-file-signature text-4xl text-slate-300 dark:text-slate-600 group-hover:text-medical-red dark:group-hover:text-red-400 mb-5 block transition-colors"></i>
-          <h4 class="font-black text-xl text-slate-800 dark:text-slate-100 mb-2">學科測驗</h4>
-          <p class="text-sm text-slate-500 dark:text-slate-400 font-medium leading-relaxed">歷屆試題與精選題庫，即時檢核學習成效並提供詳解。</p>
+        <button @click="$root.navigate('Mcq')" class="bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-2xl p-5 md:p-6 text-left hover:border-medical-red dark:hover:border-red-500 hover:shadow-lg transition-all transform hover:-translate-y-1 group">
+          <i class="fa-solid fa-file-signature text-3xl md:text-4xl text-slate-300 dark:text-slate-600 group-hover:text-medical-red dark:group-hover:text-red-400 mb-3 md:mb-5 block transition-colors"></i>
+          <h4 class="font-black text-lg md:text-xl text-slate-800 dark:text-slate-100 mb-1 md:mb-2">學科測驗</h4>
+          <p class="text-xs md:text-sm text-slate-500 dark:text-slate-400 font-medium leading-relaxed">歷屆試題與精選題庫，即時檢核學習成效並提供詳解。</p>
         </button>
-        <button @click="$root.navigate('Gcs')" class="bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-2xl p-6 text-left hover:border-emerald-500 dark:hover:border-emerald-400 hover:shadow-lg transition-all transform hover:-translate-y-1 group">
-          <i class="fa-solid fa-brain text-4xl text-slate-300 dark:text-slate-600 group-hover:text-emerald-500 dark:group-hover:text-emerald-400 mb-5 block transition-colors"></i>
-          <h4 class="font-black text-xl text-slate-800 dark:text-slate-100 mb-2">GCS 練習</h4>
-          <p class="text-sm text-slate-500 dark:text-slate-400 font-medium leading-relaxed">互動式情境模擬，快速提升昏迷指數 (E.V.M) 評估準確度。</p>
+        <button @click="$root.navigate('Gcs')" class="bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-2xl p-5 md:p-6 text-left hover:border-emerald-500 dark:hover:border-emerald-400 hover:shadow-lg transition-all transform hover:-translate-y-1 group">
+          <i class="fa-solid fa-brain text-3xl md:text-4xl text-slate-300 dark:text-slate-600 group-hover:text-emerald-500 dark:group-hover:text-emerald-400 mb-3 md:mb-5 block transition-colors"></i>
+          <h4 class="font-black text-lg md:text-xl text-slate-800 dark:text-slate-100 mb-1 md:mb-2">GCS 練習</h4>
+          <p class="text-xs md:text-sm text-slate-500 dark:text-slate-400 font-medium leading-relaxed">互動式情境模擬，快速提升昏迷指數 (E.V.M) 評估準確度。</p>
         </button>
-        <button @click="$root.navigate('Scenario')" class="bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-2xl p-6 text-left hover:border-amber-500 dark:hover:border-amber-400 hover:shadow-lg transition-all transform hover:-translate-y-1 group">
-          <i class="fa-solid fa-truck-medical text-4xl text-slate-300 dark:text-slate-600 group-hover:text-amber-500 dark:group-hover:text-amber-400 mb-5 block transition-colors"></i>
-          <h4 class="font-black text-xl text-slate-800 dark:text-slate-100 mb-2">情境演練</h4>
-          <p class="text-sm text-slate-500 dark:text-slate-400 font-medium leading-relaxed">沉浸式到院前救護流程演練，考驗臨場決策與處置能力。</p>
+        <button @click="$root.navigate('Scenario')" class="bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-2xl p-5 md:p-6 text-left hover:border-amber-500 dark:hover:border-amber-400 hover:shadow-lg transition-all transform hover:-translate-y-1 group">
+          <i class="fa-solid fa-truck-medical text-3xl md:text-4xl text-slate-300 dark:text-slate-600 group-hover:text-amber-500 dark:group-hover:text-amber-400 mb-3 md:mb-5 block transition-colors"></i>
+          <h4 class="font-black text-lg md:text-xl text-slate-800 dark:text-slate-100 mb-1 md:mb-2">情境演練</h4>
+          <p class="text-xs md:text-sm text-slate-500 dark:text-slate-400 font-medium leading-relaxed">沉浸式到院前救護流程演練，考驗臨場決策與處置能力。</p>
         </button>
       </div>
     </div>
